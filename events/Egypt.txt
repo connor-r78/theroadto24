@@ -1,0 +1,55 @@
+###########################
+# Egypt Events
+###########################
+
+add_namespace = EGY
+
+# 
+country_event = {
+	id = EGY.1
+	title = EGY.1.t
+	desc = EGY.1.d
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EGY.1.a
+		recruit_character = ETH_haile_selassie
+		add_country_leader_role = {
+    			character = ETH_haile_selassie
+    			promote_leader = yes
+    			country_leader = {
+        			ideology = despotism
+        			expire = "1965.1.1.1"
+        			traits = { king_of_kings }
+    			}
+		}
+	}
+	option = {
+		name = EGY.1.b
+		recruit_character = ETH_haile_selassie
+		add_advisor_role = {
+    			character = ETH_haile_selassie
+    			activate = yes
+    			advisor = {
+        			slot = army_chief
+        			cost = 150
+        			traits = {
+
+        			}
+    			}
+		}
+	}
+}
+
+country_event = {
+	id = EGY.2
+	title = EGY.2.t
+	desc = EGY.2.d
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = EGY.2.a
+	}
+}

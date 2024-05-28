@@ -1,0 +1,38 @@
+###########################
+# Palestine Events
+###########################
+
+add_namespace = PAL
+
+# 
+country_event = {
+	id = PAL.1
+	title = PAL.1.t
+	desc = PAL.1.d
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = PAL.1.a
+		declare_war_on = {
+                	target = PAL
+                	type = annex_everything
+            	}
+	}
+}
+
+country_event = {
+	id = PAL.2
+	title = PAL.2.t
+	desc = PAL.2.d
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = PAL.2.a
+		declare_war_on = {
+                	target = ISR
+                	type = annex_everything
+            	}
+	}
+}

@@ -1,0 +1,5396 @@
+# saudi focus by Emilia333 (i was not high, please believe me)
+
+focus_tree = {
+	id = saudiarabian_focus
+	
+	country = {
+		factor = 0
+		
+		modifier = {
+			add = 10
+			tag = SAU
+		}
+	}
+
+	default = no
+
+	continuous_focus_position = { x = 100 y = 3250 }
+
+	focus = {
+		id = SAU_prepare
+		icon = GFX_goal_generic_construct_mil_factory
+		x = 10
+		y = 0
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = arms_factory
+										size > 1
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+				set_state_flag = { flag = SAU_potential_aid_for_ethiopia value = 1 }
+			}
+		}	
+	}
+
+	focus = {
+		id = SAU_consolidate_power
+		icon = GFX_focus_eng_move_to_secure_the_dominions
+		relative_position_id = SAU_prepare
+		prerequisite = { focus = SAU_prepare }
+		x = -2
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			has_idea = SAU_recently_unified
+		}
+
+		bypass = {
+			NOT = {
+				has_idea = SAU_recently_unified
+			}
+		}
+
+		completion_reward = {
+			remove_ideas = SAU_recently_unified
+		}	
+	}
+
+	focus = {
+		id = SAU_loyalty_to_abdulaziz
+		icon = GFX_goal_tfv_strengthen_commonwealth_ties
+		relative_position_id = SAU_prepare
+		prerequisite = { focus = SAU_prepare }
+		x = 0
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+			modifier = {
+				factor = 0
+				has_country_flag = SAU_ignore_consolidation
+			}
+		}
+
+		available = {
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_stability = 0.1
+		}	
+	}
+
+	focus = {
+		id = SAU_southiraq
+		icon = GFX_goal_demand_sudetenland
+		prerequisite = { focus = SAU_loyalty_to_abdulaziz }
+		relative_position_id = SAU_loyalty_to_abdulaziz
+		mutually_exclusive = { focus = SAU_intervene_in_ethiopia }
+		x = -5
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			is_subject = no
+		}
+		
+		bypass = {
+			owns_state = 675
+			675 = {
+				is_core_of = ROOT
+			}
+			NOT = {
+				focus_progress = {
+					focus = SAU_the_impossible_purchase
+					progress > 0
+				}
+				focus_progress = {
+					focus = SAU_aid_for_the_resistance
+					progress > 0
+				}
+			}
+		}	
+		completion_reward = {
+			675 = {
+				owner = {
+					country_event = {
+						id = saudi.48 hours = 12 random_hours = 6
+					}
+				}
+			}
+		}	
+	}
+
+	focus = {
+		id = SAU_fateofiraq
+		icon = GFX_goal_generic_dangerous_deal
+		prerequisite = { focus = SAU_southiraq }
+		relative_position_id = SAU_southiraq
+		x = 0
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			is_subject = no
+			owns_state = 675
+		}
+		
+		bypass = {
+			NOT = { country_exists = IRQ }
+			OR = {
+				266 = {
+					owner = {
+						is_subject_of = ROOT
+					}
+				}
+				AND = {
+					owns_state = 291
+					owns_state = 675
+					owns_state = 676
+				}
+			}
+		}	
+		completion_reward = {
+			if = {
+				limit = {
+					266 = {
+						owner = {
+							NOT = {
+								owns_state = 291
+							}
+						}
+					}
+				}
+				266 = {
+					owner = {
+						country_event = {
+							id = saudi.37
+						}
+					}
+				}
+			}
+			else = {
+				291 = {
+					owner = {
+						ROOT = {
+							create_wargoal = {
+								target = PREV
+								type = take_state_focus
+								generator = { 291 }
+							}
+						}
+					}
+				}
+			}
+		}	
+	}
+
+	focus = {
+		id = SAU_consolidation
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = { focus = SAU_fateofiraq }
+		relative_position_id = SAU_fateofiraq
+		x = 0
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			is_subject = no
+		}
+		
+		completion_reward = {
+			add_named_threat = { threat = 1 name = SAU_consolidation_threat }
+			custom_effect_tooltip = SAU_unlock_decision_invade_colonies
+			add_manpower = 5000
+			hidden_effect = {
+				if = {
+					limit = { 
+						NOT = {
+							country_exists = MOR
+						}
+					}
+					every_country = {
+						limit = {
+							controls_state = 290 
+						}
+						country_event = { id = saudi.1 hours = 240 random_hours = 240 }
+					}
+				}
+			}
+		}
+	}	
+
+	focus = {
+		id = SAU_the_syrian_question
+		icon = GFX_focus_attack_france
+		prerequisite = { focus = SAU_consolidation }
+		relative_position_id = SAU_curtail_iranian_autonomy
+		x = -2
+		y = -3
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			is_subject = no
+		}
+
+		bypass = {
+			OR = {
+				AND = {
+					owns_state = 553
+					owns_state = 554
+					owns_state = 677
+					owns_state = 680
+					owns_state = 799
+				}
+				AND = {
+					country_exists = SYR
+					SYR = {
+						is_subject = no
+					}
+				}
+			}
+		}
+
+		
+
+		completion_reward = {
+		custom_effect_tooltip = SAU_unlock_reverse_hatay_decision
+			if = {
+				limit = {
+					FRA = {
+						owns_state = 553
+						owns_state = 554
+						owns_state = 677
+						owns_state = 680
+						owns_state = 799
+					}
+				}
+				FRA = {
+					country_event = {
+						id = saudi.29 hours = 1
+					}
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						FRA = {
+							owns_state = 553
+							owns_state = 554
+							owns_state = 677
+							owns_state = 680
+						}
+						TUR = {
+							owns_state = 799
+						}
+					}
+					FRA = {
+						country_event = {
+							id = saudi.29 hours = 1
+						}
+					}
+					TUR = {
+						country_event = {
+							id = saudi.29 hours = 1
+						}
+					}
+				}
+				else = {
+					553 = {
+						owner = {
+							country_event = { id = saudi.39 hours = 1 }
+						}
+					}
+					554 = {
+						owner = {
+							country_event = { id = saudi.39 hours = 1 }
+						}
+					}
+					677 = {
+						owner = {
+							country_event = { id = saudi.39 hours = 1 }
+						}
+					}
+					680 = {
+						owner = {
+							country_event = { id = saudi.39 hours = 1 }
+						}
+					}
+					799 = {
+						owner = {
+							country_event = { id = saudi.39 hours = 1 }
+						}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_syrian_annexation
+		icon = GFX_focus_generic_befriend_saudi_arabia
+		prerequisite = { focus = SAU_the_syrian_question }
+		relative_position_id = SAU_the_syrian_question
+		x = 0
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+		
+		available = {
+			country_exists = SYR
+		}
+
+		bypass = {
+			OR = {
+				AND = {
+					owns_state = 553
+					owns_state = 554
+					owns_state = 677
+					owns_state = 680
+					owns_state = 799
+				}
+				AND = {
+					has_full_control_of_state = 553
+					has_full_control_of_state = 554
+					has_full_control_of_state = 677
+					has_full_control_of_state = 680
+					has_full_control_of_state = 799
+				}
+			}
+		}
+
+		completion_reward = {
+			add_named_threat = { threat = 1 name = SAU_annexed_syria }
+			if = {
+				limit = {
+					SYR = {
+						is_ai = yes
+						is_subject = no
+					}
+				}
+				annex_country = { target = SYR transfer_troops = yes }
+				SYR = {
+					every_unit_leader = {
+						set_nationality = ROOT
+					}
+				}
+			}
+			else = {
+				create_wargoal = {
+					target = SYR
+					type = take_state_focus
+					generator = { 553 554 677 680 799 }
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_integrate_syria
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = SAU_syrian_annexation }
+		relative_position_id = SAU_the_syrian_question
+		x = -1
+		y = 2
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			controls_state = 553
+			controls_state = 554
+			controls_state = 677
+			controls_state = 680
+			controls_state = 799
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = {
+						owns_state = 553
+						owns_state = 554
+						owns_state = 677
+						owns_state = 680
+						owns_state = 799
+					}
+				}
+				transfer_state = 553
+				transfer_state = 554
+				transfer_state = 677
+				transfer_state = 680
+				transfer_state = 799
+			}
+			553 = {
+				add_core_of = ROOT
+			}
+			554 = {
+				add_core_of = ROOT
+			}
+			677 = {
+				add_core_of = ROOT
+			}
+			680 = {
+				add_core_of = ROOT
+			}
+			799 = {
+				add_core_of = ROOT
+			}
+			if = {
+				limit = {
+					has_war_with = FRA
+				}
+				FRA = {
+					country_event = {
+						id = saudi.40 hours = 24
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_integrate_suez_and_sinai
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = SAU_syrian_annexation }
+		relative_position_id = SAU_consolidation
+		x = -1
+		y = 3
+		cost = 5
+
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			owns_state = 453
+			owns_state = 446
+		}
+
+		
+
+		completion_reward = {
+			453 = {
+				add_core_of = ROOT
+			}
+			446 = {
+				add_core_of = ROOT
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_yemen
+		icon = GFX_goal_anschluss
+		prerequisite = { focus = SAU_consolidation }
+		relative_position_id = SAU_curtail_iranian_autonomy
+		x = 0
+		y = -3
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			293 = {
+				owner = {
+					NOT = {
+						has_war_with = ROOT
+					}
+					country_exists = PREV
+				}
+			}
+		}
+
+		completion_reward = {
+			add_named_threat = { threat = 1 name = SAU_aliitisal }
+			if = {
+				limit = {
+					293 = {
+						owner = {
+							is_ai = yes
+						}
+					}
+				}
+				hidden_effect = {
+					news_event = { hours = 6 id = saudi_news.3 }
+				}
+				293 = {
+					owner = {
+						every_unit_leader = {
+							set_nationality = SAU
+						}
+						ROOT = { annex_country = { target = PREV transfer_troops = yes } }
+					}
+				}
+				293 = { add_core_of = SAU }
+			}
+			else = {
+				293 = {
+					owner = {
+						country_event = {
+							id = saudi.44
+						}
+					}
+				}
+			}
+		}	
+	}
+
+	focus = {
+		id = SAU_seize_iraq
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		prerequisite = { focus = SAU_yemen }
+		relative_position_id = SAU_thearableague
+		x = -2
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			291 = {
+				owner = {
+					is_subject_of = SAU
+				}
+			}
+			676 = {
+				owner = {
+					is_subject_of = SAU
+				}
+			}
+		}
+
+		
+
+		completion_reward = {
+			if = {
+				limit = {
+					676 = {
+						owner = {
+							owns_state = 291
+						}
+					}
+				}
+				291 = {
+					add_core_of = ROOT
+				}
+				676 = {
+					add_core_of = ROOT
+					owner = {
+						country_event = {
+							id = saudi.27 hours = 1
+						}
+					}
+				}
+			}
+			else = {
+				676 = {
+					add_core_of = ROOT
+					owner = {
+						country_event = {
+							id = saudi.28 hours = 1
+						}
+					}
+				}
+				291 = {
+					add_core_of = ROOT
+					owner = {
+						country_event = {
+							id = saudi.28 hours = 1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_curtail_iranian_autonomy
+		icon = GFX_focus_generic_treaty
+		prerequisite = { focus = SAU_seize_iraq }
+		relative_position_id = SAU_seize_iraq
+		x = 0
+		y = 2
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			OR = {
+				266 = {
+					owner = {
+						is_subject_of = ROOT
+					}
+				}
+				PER = {
+					is_subject_of = ROOT
+				}
+			}
+		}
+
+		bypass = {
+			owns_state = 266
+		}
+
+		
+
+		completion_reward = {
+			if = {
+				limit = {
+					PER = {
+						is_subject_of = ROOT
+					}
+				}
+				PER = {
+					add_timed_idea = {
+						idea = HOL_curtail_colonial_autonomy_subject
+						days = 720
+					}
+				}
+			}
+			else = {
+				266 = {
+					owner = {
+						add_timed_idea = {
+							idea = HOL_curtail_colonial_autonomy_subject
+							days = 720
+						}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_take_iran_by_force
+		icon = GFX_focus_generic_attack_iran
+		prerequisite = { focus = SAU_curtail_iranian_autonomy }
+		mutually_exclusive = { focus = SAU_iranian_referendum }
+		relative_position_id = SAU_curtail_iranian_autonomy
+		x = -1
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			266 = {
+				owner = {
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
+			}
+		}
+
+		
+
+		bypass = {
+			owns_state = 266
+		}
+
+		completion_reward = {
+			add_political_power = 50
+			add_war_support = 0.10
+			army_experience = 10
+			if = {
+				limit = { PER = { is_subject_of = ROOT } }
+				set_autonomy = {
+					target = PER
+					autonomy_state = autonomy_free
+				}
+			}
+			if = {
+				limit = { PER = { is_in_faction_with = ROOT } }
+				if = {
+					limit = {
+						is_faction_leader = yes
+					}
+					PER = {
+						leave_faction = yes
+					}
+				}
+				else = {
+					leave_faction = yes
+				}
+			}
+			country_event = {
+				id = saudi.47 hours = 24
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_saudi-abbasid_empire
+		icon = GFX_focus_generic_little_entente
+		prerequisite = { focus = SAU_take_iran_by_force }
+		relative_position_id = SAU_take_iran_by_force
+		x = 0
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			owns_state = 266
+		}
+		completion_reward = {
+			set_cosmetic_tag = ABBASID_UNIFIED
+			add_political_power = 100
+			create_country_leader = {
+				name = "Abdulaziz ibn Saud-Abbasid"
+				desc = ""
+				picture = "GFX_portrait_Abdulaziz_Ibn_Saud"
+				expire = "1965.1.1"
+				ideology = despotism
+				traits = {
+				
+				}
+			}
+			set_party_name = {
+				ideology = neutrality
+				long_name = "House of Saud-Abbasid"
+				name = "House of Saud-Abbasid"
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_reclaiming_armenia
+		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = { focus = SAU_saudi-abbasid_empire }
+		x = 0
+		y = 1
+		relative_position_id = SAU_saudi-abbasid_empire
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		completion_reward = {
+			add_war_support = 0.05
+			add_state_claim = 344
+			add_state_claim = 350
+			add_state_claim = 352
+			add_state_claim = 353
+			add_state_claim = 800
+			add_state_claim = 230
+			add_state_claim = 229
+			add_state_claim = 232
+			add_state_claim = 231
+			add_state_claim = 344
+			add_state_claim = 826
+			add_state_claim = 821
+			add_state_claim = 344
+			add_state_claim = 828
+			add_state_claim = 827
+			add_state_claim = 233
+			add_state_claim = 354
+		}
+	}
+
+	focus = {
+		id = SAU_turkish_opressors
+		icon = GFX_focus_generic_attack_turkey
+		prerequisite = { focus = SAU_reclaiming_armenia }
+		x = -1
+		y = 1
+		relative_position_id = SAU_reclaiming_armenia
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		completion_reward = {
+			344 = {
+				owner = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = take_state_focus
+							generator = {
+								344
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_russian_opressors
+		icon = GFX_focus_attack_soviet
+		prerequisite = { focus = SAU_reclaiming_armenia }
+		x = 1
+		y = 1
+		relative_position_id = SAU_reclaiming_armenia
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		completion_reward = {
+			230 = {
+				owner = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = take_state_focus
+							generator = {
+								230
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_integrate_armenia
+		icon = GFX_goal_anschluss
+		prerequisite = { focus = SAU_turkish_opressors focus = SAU_russian_opressors }
+		mutually_exclusive = { focus = SAU_the_armenian_principalities_reborn }
+		x = 0
+		y = 1
+		relative_position_id = SAU_turkish_opressors
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			owns_state = 344
+			owns_state = 350
+			owns_state = 353
+			owns_state = 352
+			owns_state = 800
+			owns_state = 354
+			owns_state = 230
+			owns_state = 229
+			owns_state = 231
+			owns_state = 826
+			owns_state = 232
+			owns_state = 821
+			owns_state = 828
+			owns_state = 827
+			owns_state = 232
+			owns_state = 233
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		completion_reward = {
+			every_owned_state = {
+				limit = {
+					OR = {
+						state = 344
+						state = 350
+						state = 353
+						state = 352
+						state = 800
+						state = 354
+						state = 230
+						state = 229
+						state = 231
+						state = 826
+						state = 232
+						state = 821
+						state = 828
+						state = 827
+						state = 232
+						state = 233
+					}
+				}
+				add_core_of = ROOT
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_the_armenian_principalities_reborn
+		icon = GFX_goal_generic_defence
+		prerequisite = { focus = SAU_turkish_opressors focus = SAU_russian_opressors }
+		mutually_exclusive = { focus = SAU_integrate_armenia }
+		x = 0
+		y = 1
+		relative_position_id = SAU_russian_opressors
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			owns_state = 344
+			owns_state = 350
+			owns_state = 353
+			owns_state = 352
+			owns_state = 800
+			owns_state = 354
+			owns_state = 230
+			owns_state = 229
+			owns_state = 231
+			owns_state = 826
+			owns_state = 232
+			owns_state = 821
+			owns_state = 828
+			owns_state = 827
+			owns_state = 232
+			owns_state = 233
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		completion_reward = {
+			every_owned_state = {
+				limit = {
+					OR = {
+						state = 344
+						state = 350
+						state = 353
+						state = 352
+						state = 800
+						state = 354
+						state = 230
+						state = 229
+						state = 231
+						state = 826
+						state = 232
+						state = 821
+						state = 828
+						state = 827
+						state = 232
+						state = 233
+					}
+				}
+				ARM = {
+					transfer_state = PREV
+				}
+			}
+			every_state = {
+				limit = {
+					OR = {
+						state = 344
+						state = 350
+						state = 353
+						state = 352
+						state = 800
+						state = 354
+						state = 230
+						state = 229
+						state = 231
+						state = 826
+						state = 232
+						state = 821
+						state = 828
+						state = 827
+						state = 232
+						state = 233
+					}
+					NOT = {
+						is_core_of = ARM
+					}
+				}
+				add_core_of = ARM
+			}
+			set_autonomy = {
+				target = ARM
+				autonomy_state = autonomy_puppet
+			}
+			ARM = {
+				set_cosmetic_tag = ARM_PRINCIPALITIES
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_iranian_referendum
+		icon = GFX_focus_generic_military_academy
+		prerequisite = { focus = SAU_curtail_iranian_autonomy }
+		mutually_exclusive = { focus = SAU_take_iran_by_force }
+		relative_position_id = SAU_curtail_iranian_autonomy
+		x = 1
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			266 = {
+				owner = {
+					is_subject_of = ROOT
+				}
+			}
+		}
+
+		completion_reward = {
+			add_stability = 0.1
+			random_list = {
+				50 = {
+					if = {
+						limit = {
+							is_historical_focus_on = no
+						}
+						country_event = {
+							id = saudi.45 days = 7
+						}
+						set_country_flag = SAU_perso_arabian_formable_allowed
+						set_country_flag = SAU_persian_resistance
+					}
+					else = {
+						set_country_flag = SAU_unite_the_thrones_dont_form_perso_arabia
+						266 = {
+							owner = {
+								ROOT = {
+									annex_country = { target = PREV transfer_troops = yes }
+								}
+							}
+						}
+						set_cosmetic_tag = SAU_PER_UNIFIED
+						every_state = {
+							limit = {
+								is_core_of = PER
+								NOT = {
+									is_core_of = GRE
+									is_core_of = KUR
+									is_core_of = TUR
+									state = 118
+									state = 183
+								}
+							}
+							add_core_of = ROOT
+						}
+						every_state = {
+							limit = {
+								is_core_of = PAK
+								NOT = {
+									state = 430
+								}
+							}
+							add_core_of = ROOT
+						}
+						907 = {
+							add_core_of = ROOT
+						}
+						421 = {
+							add_core_of = ROOT
+						}
+						419 = {
+							add_core_of = ROOT
+						}
+					}
+				}
+				50 = {
+					set_country_flag = SAU_unite_the_thrones_dont_form_perso_arabia
+					266 = {
+						owner = {
+							ROOT = {
+								annex_country = { target = PREV transfer_troops = yes }
+							}
+						}
+					}
+					set_cosmetic_tag = SAU_PER_UNIFIED
+					every_state = {
+						limit = {
+							is_core_of = PER
+							NOT = {
+								is_core_of = GRE
+								is_core_of = KUR
+								is_core_of = TUR
+								state = 118
+								state = 183
+							}
+						}
+						add_core_of = ROOT
+					}
+					every_state = {
+						limit = {
+							is_core_of = PAK
+							NOT = {
+								state = 430
+							}
+						}
+						add_core_of = ROOT
+					}
+					907 = {
+						add_core_of = ROOT
+					}
+					421 = {
+						add_core_of = ROOT
+					}
+					419 = {
+						add_core_of = ROOT
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_invade_afghanistan
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		prerequisite = { focus = SAU_iranian_referendum }
+		relative_position_id = SAU_iranian_referendum
+		x = 0
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		bypass = {
+			OR = {
+				AND = {
+					owns_state = 267
+					owns_state = 415
+				}
+				267 = {
+					owner = {
+						has_war_with = ROOT
+					}
+				}
+			}
+		}
+		completion_reward = {
+			267 = {
+				owner = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = take_state_focus
+							generator = { 267 }
+						}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_invade_pakistan
+		icon = GFX_focus_RAJ_two_nation_theory
+		prerequisite = { focus = SAU_invade_afghanistan }
+		relative_position_id = SAU_invade_afghanistan
+		x = 0
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+		
+		available = {
+			owns_state = 267
+			owns_state = 415
+		}
+		completion_reward = {
+			custom_effect_tooltip = SAU_can_end_war_if_captured_pakistan
+			440 = {	
+				owner = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = take_state_focus
+							generator = { 440 }
+						}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_concessions_to_persians
+		icon = GFX_goal_generic_improve_relations
+		prerequisite = { focus = SAU_iranian_referendum }
+		x = 2
+		y = 1
+		relative_position_id = SAU_iranian_referendum
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			has_idea = SAU_persian_resistance_idea
+		}
+
+		bypass = {
+			NOT = {
+				has_idea = SAU_persian_resistance_idea
+				has_country_flag = SAU_persian_resistance
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		completion_reward = {
+			remove_ideas = SAU_persian_resistance_idea
+			add_ideas = SAU_persian_concessions_1
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = SAU_solving_the_issue
+		icon = GFX_goal_generic_improve_relations
+		prerequisite = { focus = SAU_concessions_to_persians }
+		x = 0
+		y = 1
+		relative_position_id = SAU_concessions_to_persians
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			has_idea = SAU_persian_concessions_1
+		}
+
+		bypass = {
+			NOT = {
+				has_idea = SAU_persian_concessions_1
+				has_country_flag = SAU_persian_resistance
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		completion_reward = {
+			remove_ideas = SAU_persian_concessions_1
+			add_ideas = SAU_persian_concessions_2
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = SAU_unite_the_thrones
+		icon = GFX_goal_tfv_strengthen_commonwealth_ties
+		prerequisite = { focus = SAU_solving_the_issue }
+		x = 0
+		y = 1
+		relative_position_id = SAU_solving_the_issue
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			NOT = {
+				has_idea = SAU_persian_resistance_idea
+				has_idea = SAU_persian_concessions_1
+			}
+			owns_state = 266
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		completion_reward = {
+			add_ideas = SAU_abdulaziz_monarch
+			add_ideas = SAU_shah_pahlavi_monarch
+			if = {
+				limit = {
+					NOT = {
+						has_idea = SAU_persian_concessions_2
+					}
+				}
+				add_ideas = SAU_perso-arabian_patriotism
+			}
+			if = {
+				limit = {
+					NOT = { has_country_flag = SAU_unite_the_thrones_dont_form_perso_arabia }
+				}
+				set_cosmetic_tag = SAU_PER_UNIFIED
+				every_state = {
+					limit = {
+						is_core_of = PER
+						NOT = {
+							is_core_of = GRE
+							is_core_of = KUR
+							is_core_of = TUR
+							state = 118
+							state = 183
+						}
+					}
+					add_core_of = ROOT
+				}
+				every_state = {
+					limit = {
+						is_core_of = PAK
+						NOT = {
+							state = 430
+						}
+					}
+					add_core_of = ROOT
+				}
+				907 = {
+					add_core_of = ROOT
+				}
+				421 = {
+					add_core_of = ROOT
+				}
+				419 = {
+					add_core_of = ROOT
+				}
+			}
+			country_event = {
+				id = saudi.54 hours = 12
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_thearableague
+		icon = GFX_focus_generic_little_entente
+		prerequisite = { focus = SAU_consolidation }
+		relative_position_id = SAU_fateofiraq
+		x = 2
+		y = 2
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			is_subject = no
+		}
+		
+
+		bypass = {
+			is_faction_leader = yes
+		}
+
+		completion_reward = {
+			add_stability = 0.05
+			create_faction = "The Arab League"
+			set_rule = {
+				can_create_factions = yes
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_invitethenewarabs
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = SAU_thearableague }
+		relative_position_id = SAU_thearableague
+		x = 0
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			is_faction_leader = yes
+			OR = {
+				country_exists = PAL
+				country_exists = ISR
+			}
+			country_exists = MOR
+			NOT = {
+				has_war_with = PAL
+				has_war_with = ISR
+				has_war_with = MOR
+			}
+		}
+		
+
+		bypass = {
+			OR = {
+				is_in_faction_with = PAL
+				is_in_faction_with = ISR
+			}
+			is_in_faction_with = MOR
+		}
+
+		completion_reward = {
+			if = {
+				limit = { country_exists = PAL }
+				PAL = {
+					country_event = { id = saudi.25 hours = 24 random_hours = 24 }
+				}
+			}
+			else = {
+				ISR = {
+					country_event = { id = saudi.25 hours = 24 random_hours = 24 }
+				}
+			}
+			MOR = {
+				country_event = { id = saudi.25 hours = 24 random_hours = 24 }
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_integrate_holy_land
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = SAU_invitethenewarabs }
+		relative_position_id = SAU_invitethenewarabs
+		x = -1
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			OR = {
+				AND = {
+					454 = {
+						owner = {
+							OR = {
+								is_subject_of = ROOT
+								is_in_faction_with = ROOT
+							}
+						}
+					}
+					OR = {
+						ISR = { owns_state = 454 }
+						PAL = { owns_state = 454 }
+					}
+				}
+				owns_state = 454
+			}
+		}
+
+		
+
+		completion_reward = {
+			if = {
+				limit = {
+					OR = {
+						PAL = {
+							is_subject_of = ROOT
+						}
+						ISR = {
+							is_subject_of = ROOT
+						}
+					}
+				}
+				every_country = {
+					limit = {
+						OR = {
+							original_tag = PAL
+							original_tag = ISR
+						}
+						is_subject_of = ROOT
+					}
+					every_unit_leader = {
+						set_nationality = ROOT
+					}
+					ROOT = {
+						annex_country = {
+							target = PREV
+							transfer_troops = yes
+						}
+					}
+				}
+			}
+			else = {
+				if = {
+					limit = { NOT = { owns_state = 454 } }
+					454 = {
+						owner = {
+							country_event = {
+								id = saudi.26 hours = 1
+							}
+						}
+					}
+				}
+			}
+			country_event = { id = saudi.51 days = 14 }
+		}
+	}
+
+	focus = {
+		id = SAU_integrate_morocco
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = SAU_invitethenewarabs }
+		relative_position_id = SAU_invitethenewarabs
+		x = 1
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			is_in_faction_with = MOR
+		}
+
+		completion_reward = {
+			MOR = {
+				country_event = {
+					id = saudi.26 hours = 1
+				}
+			}
+			country_event = { id = saudi.52 hours = 240 }
+			set_global_flag = saudis_annexed_morocco
+		}
+	}
+
+	focus = {
+		id = SAU_intervene_in_ethiopia
+		icon = GFX_focus_spr_the_anti_fascist_workers_revolution
+		relative_position_id = SAU_loyalty_to_abdulaziz
+		prerequisite = { focus = SAU_loyalty_to_abdulaziz }
+		mutually_exclusive = { focus = SAU_southiraq }
+		x = 5
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		bypass = {
+			NOT = {
+				ITA = {
+					has_war_with = ETH
+				}
+			}
+		}
+		
+		search_filters = { FOCUS_FILTER_ARMY_XP FOCUS_FILTER_WAR_SUPPORT }	
+		completion_reward = {
+			ETH = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = SAU_ETH_intervention_modifier
+				}
+			}
+			add_ideas = SAU_intervention_in_ethiopia
+			add_war_support = 0.05
+			set_rule = {
+				can_send_volunteers = yes
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						ETH = {
+							is_ai = yes
+						}
+					}
+					ETH = {
+						country_event = {
+							id = saudi.64
+						}
+					}
+				}
+			}
+		}	
+	}
+
+	focus = {
+		id = SAU_send_advisors
+		icon = GFX_focus_ETH_the_emperor_stays
+		prerequisite = { focus = SAU_intervene_in_ethiopia }
+		relative_position_id = SAU_intervene_in_ethiopia
+		x = -2
+		y = 1
+		cost = 5
+
+		available = {
+			NOT = {
+				has_war_with = ETH
+			}
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		bypass = {
+			OR = {
+				ETH = {
+					NOT = {
+						has_war_with = ITA
+					}
+				}
+				NOT = {
+					country_exists = ETH
+				}
+			}
+		}
+		
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }	
+		completion_reward = {
+			ETH = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = SAU_ETH_advisor_modifier
+				}
+			}
+			add_ideas = SAU_advisors_to_ethiopia
+			ETH = {
+				add_ideas = SAU_advisors_from_arabia
+			}
+		}	
+	}
+
+	focus = {
+		id = SAU_military_aid
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = SAU_intervene_in_ethiopia }
+		relative_position_id = SAU_intervene_in_ethiopia
+		x = 0
+		y = 1
+		cost = 5
+		available = {
+			NOT = {
+				has_war_with = ETH
+			}
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		bypass = {
+			OR = {
+				ETH = {
+					NOT = {
+						has_war_with = ITA
+					}
+				}
+				NOT = {
+					country_exists = ETH
+				}
+			}
+		}
+	
+		completion_reward = {
+			ETH = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = SAU_ETH_military_modifier
+				}
+			}
+			ETH = {
+				add_offsite_building = { type = arms_factory level = 2 }
+			}
+			every_state = {
+				limit = {
+					has_state_flag = SAU_potential_aid_for_ethiopia
+				}
+				remove_building = {
+					type = arms_factory
+					level = 2
+				}
+			}
+		}	
+	}
+
+	focus = {
+		id = SAU_send_volunteers
+		icon = GFX_focus_eng_special_air_service
+		prerequisite = { focus = SAU_intervene_in_ethiopia }
+		relative_position_id = SAU_intervene_in_ethiopia
+		x = 2
+		y = 1
+		cost = 5
+		available = {
+			NOT = {
+				has_war_with = ETH
+			}
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		bypass = {
+			OR = {
+				ETH = {
+					NOT = {
+						has_war_with = ITA
+					}
+				}
+				NOT = {
+					country_exists = ETH
+				}
+			}
+		}
+		
+		search_filters = { FOCUS_FILTER_MANPOWER }	
+		completion_reward = {
+			ETH = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = SAU_ETH_volunteer_modifier
+				}
+			}
+			add_ideas = SAU_volunteers_to_ethiopia
+			ETH = {
+				add_ideas = SAU_volunteers_from_arabia
+			}
+		}	
+	}
+
+	focus = {
+		id = SAU_the_impossible_purchase
+		icon = GFX_goal_generic_dangerous_deal
+		prerequisite = { focus = SAU_send_advisors focus = SAU_military_aid focus = SAU_send_volunteers }
+		mutually_exclusive = { focus = SAU_aid_for_the_resistance }
+		relative_position_id = SAU_send_advisors
+		x = 1
+		y = 1
+		cost = 5
+		available = {
+			any_owned_state = {
+				is_controlled_by = ROOT
+				industrial_complex > 1
+			}
+			102 = {
+				owner = {
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
+			}
+			853 = {
+				owner = {
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 30
+			modifier = {
+				factor = 0
+				has_country_flag = SAU_ignore_rome
+			}
+		}
+
+		bypass = {
+			owns_state = 102
+			owns_state = 853
+		}
+	
+		completion_reward = {
+			custom_effect_tooltip = SAU_this_is_an_op_focus_path
+			every_country = {
+				limit = {
+					OR = {
+						owns_state = 102
+						owns_state = 853
+					}
+				}
+				country_event = {
+					id = saudi.67
+				}
+			}
+		}	
+	}
+
+	focus = {
+		id = SAU_aid_for_the_resistance
+		icon = GFX_focus_eng_move_to_secure_the_dominions
+		prerequisite = { focus = SAU_send_advisors focus = SAU_military_aid focus = SAU_send_volunteers }
+		mutually_exclusive = { focus = SAU_the_impossible_purchase }
+		relative_position_id = SAU_military_aid
+		x = 1
+		y = 1
+		cost = 5
+		available = {
+			any_country = {
+				original_tag = ITA
+				has_civil_war = yes
+				NOT = {
+					has_government = fascism
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 30
+			modifier = {
+				factor = 0
+				has_country_flag = SAU_ignore_rome
+			}
+		}
+	
+		completion_reward = {
+			custom_effect_tooltip = SAU_this_is_an_op_focus_path
+			every_country = {
+				limit = {
+					original_tag = ITA
+					has_government = fascism
+				}
+				add_ideas = ITA_opposing_saudi_aid
+			}
+			ITA = {
+				set_country_flag = SAU_prearranged_saudi_expansion
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = SAU_ITA_aid_modifier
+				}
+			}
+		}	
+	}
+
+	focus = {
+		id = SAU_anti_fascist_coalition
+		icon = GFX_focus_generic_anti_fascist_diplomacy
+		prerequisite = { focus = SAU_the_impossible_purchase focus = SAU_aid_for_the_resistance }
+		relative_position_id = SAU_the_impossible_purchase
+		x = 1
+		y = 1
+		cost = 5
+		available = {
+			any_country = {
+				has_government = fascism
+			}
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+		bypass = {
+			OR = {
+				has_war_with = ITA
+				NOT = {
+					country_exists = ITA
+				}
+				NOT = {
+					has_completed_focus = SAU_the_impossible_purchase
+				}
+			}
+			is_faction_leader = yes
+		}
+	
+		completion_reward = {
+			set_rule = { can_create_factions = yes }
+			create_faction = "The Anti-Fascist Coalition"
+			country_event = {
+				id = saudi.70 days = 35
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						has_completed_focus = SAU_the_impossible_purchase
+					}
+					every_state = {
+						limit = {
+							any_neighbor_state = {
+								is_owned_by = ITA
+							}
+							is_on_continent = europe
+							NOT = {
+								is_owned_by = ITA
+							}
+						}
+						owner = {
+							if = {
+								limit = {
+									NOT = { original_tag = SAU }
+								}
+								country_event = {
+									id = saudi.69 hours = 3
+								}
+							}
+						}
+					}
+					country_event = {
+						id = saudi.71 hours = 3
+					}
+				}
+				else = {
+					ITA = {
+						country_event = {
+							id = saudi.81
+						}
+					}
+				}
+			}
+		}	
+	}
+
+	focus = {
+		id = SAU_leaders_claim_on_rome
+		icon = GFX_focus_ITA_mare_nostrum
+		prerequisite = { focus = SAU_anti_fascist_coalition }
+		mutually_exclusive = { focus = SAU_expand_the_coalition }
+		relative_position_id = SAU_anti_fascist_coalition
+		x = -3
+		y = 1
+		cost = 5
+		available = {
+			OR = {
+				controls_state = 2
+				AND = {
+					has_completed_focus = SAU_aid_for_the_resistance
+					2 = {
+						controller = {
+							is_in_faction_with = SAU
+						}
+					}
+				}
+			}
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+	
+		completion_reward = {
+			add_named_threat = { threat = 3 name = SAU_claimed_rome }
+			add_political_power = 140
+			set_country_flag = SAU_successor_to_rome
+			country_event = { id = saudi.46 }
+			2 = {
+				add_core_of = ROOT
+			}
+			if = {
+				limit = {
+					NOT = {
+						owns_state = 2
+					}
+				}
+				2 = {
+					owner = {
+						country_event = {
+							id = saudi.84
+						}
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_militaristic_approach
+		icon = GFX_focus_generic_strike_at_democracy2
+		prerequisite = { focus = SAU_leaders_claim_on_rome }
+		mutually_exclusive = { focus = SAU_diplomatic_approach }
+		relative_position_id = SAU_leaders_claim_on_rome
+		x = -1
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+	
+		completion_reward = {
+			set_country_flag = SAU_rome_mil_approach
+			add_war_support = 0.25
+			if = {
+				limit = { is_in_faction = yes }
+				leave_faction = yes
+			}
+			set_rule = { can_join_factions = no }
+			set_rule = { can_create_factions = no }
+		}
+	}
+
+	focus = {
+		id = SAU_diplomatic_approach
+		icon = GFX_goal_support_democracy
+		prerequisite = { focus = SAU_leaders_claim_on_rome }
+		mutually_exclusive = { focus = SAU_militaristic_approach }
+		relative_position_id = SAU_leaders_claim_on_rome
+		x = 1
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+	
+		completion_reward = {
+			set_country_flag = SAU_rome_diplo_approach
+			add_stability = 0.25
+			create_faction = "Roman Union"
+		}
+	}
+
+	focus = {
+		id = SAU_reintegrate_provinces
+		icon = GFX_focus_generic_treaty
+		prerequisite = { focus = SAU_militaristic_approach }
+		x = -3
+		y = 1
+		relative_position_id = SAU_militaristic_approach
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = SAU_unlock_decision_reintegrate_provinces
+		}
+	}
+
+	focus = {
+		id = SAU_anatolian_expansion
+		icon = GFX_focus_generic_attack_turkey
+		prerequisite = { focus = SAU_militaristic_approach }
+		relative_position_id = SAU_militaristic_approach
+		x = -2
+		y = 2
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+	
+		completion_reward = {
+			every_country = {
+				limit = {
+					NOT = {
+						original_tag = SAU
+						is_subject_of = SAU
+					}
+					any_owned_state = {
+						OR = {
+							is_core_of = TUR
+							state = 350
+							state = 352
+							state = 353
+							state = 800
+						}
+						NOT = {
+							state = 799
+						}
+					}
+				}
+				country_event = {
+					id = saudi.75
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_yugoslav_expansion
+		icon = GFX_focus_BUL_free_balkan_states
+		prerequisite = { focus = SAU_militaristic_approach }
+		relative_position_id = SAU_militaristic_approach
+		x = -1
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+	
+		completion_reward = {
+			every_country = {
+				limit = {
+					NOT = {
+						original_tag = SAU
+						is_subject_of = SAU
+					}
+					any_owned_state = {
+						OR = {
+							is_core_of = YUG
+							is_core_of = SLV
+							is_core_of = CRO
+							is_core_of = BOS
+							is_core_of = MNT
+							is_core_of = SER
+							is_core_of = KOS
+							is_core_of = MAC
+							state = 45
+							state = 764
+						}
+					}
+				}
+				country_event = {
+					id = saudi.74
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_greek_expansion
+		icon = GFX_focus_GRE_bedrock_of_balkan_stability
+		prerequisite = { focus = SAU_militaristic_approach }
+		relative_position_id = SAU_militaristic_approach
+		x = 0
+		y = 2
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+	
+		completion_reward = {
+			every_country = {
+				limit = {
+					NOT = {
+						original_tag = SAU
+						is_subject_of = SAU
+					}
+					any_owned_state = {
+						is_core_of = GRE
+					}
+				}
+				country_event = {
+					id = saudi.73
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_iberian_expansion
+		icon = GFX_focus_generic_free_iberia
+		prerequisite = { focus = SAU_militaristic_approach focus = SAU_diplomatic_approach }
+		relative_position_id = SAU_militaristic_approach
+		x = 1
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+	
+		completion_reward = {
+			every_country = {
+				limit = {
+					NOT = {
+						original_tag = SAU
+						is_subject_of = SAU
+					}
+					capital_scope = {
+						OR = {
+							state = 179
+							state = 112
+							state = 795
+							state = 181
+							state = 180
+							state = 171
+							state = 169
+							state = 170
+							state = 788
+							state = 174
+							state = 790
+							state = 791
+							state = 41
+							state = 175
+							state = 789
+							state = 173
+							state = 118
+							state = 168
+							state = 167
+							state = 793
+							state = 176
+							state = 792
+							state = 172
+							state = 166
+							state = 794
+							state = 165
+							state = 177
+						}
+					}
+				}
+				if = {
+					limit = {
+						SAU = {
+							has_completed_focus = SAU_militaristic_approach
+						}
+					}
+					country_event = {
+						id = saudi.72
+					}
+				}
+				else = {
+					country_event = {
+						id = saudi.76
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_anatolian_protection
+		icon = GFX_focus_generic_befriend_turkey
+		prerequisite = { focus = SAU_diplomatic_approach }
+		relative_position_id = SAU_diplomatic_approach
+		x = 0
+		y = 2
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+	
+		completion_reward = {
+			every_country = {
+				limit = {
+					OR = {
+						original_tag = TUR
+						original_tag = KUR
+					}
+				}
+				country_event = {
+					id = saudi.76
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_yugoslav_protection
+		icon = GFX_focus_invite_yugoslavia
+		prerequisite = { focus = SAU_diplomatic_approach }
+		relative_position_id = SAU_diplomatic_approach
+		x = 1
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+	
+		completion_reward = {
+			every_country = {
+				limit = {
+					NOT = {
+						original_tag = SAU
+					}
+					OR = {
+						original_tag = YUG
+						original_tag = SLV
+						original_tag = CRO
+						original_tag = BOS
+						original_tag = MNT
+						original_tag = SER
+						original_tag = KOS
+						original_tag = MAC
+					}
+				}
+				country_event = {
+					id = saudi.76
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_greek_protection
+		icon = GFX_focus_generic_befriend_greece
+		prerequisite = { focus = SAU_diplomatic_approach }
+		relative_position_id = SAU_diplomatic_approach
+		x = 2
+		y = 2
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+	
+		completion_reward = {
+			every_country = {
+				limit = {
+					NOT = {
+						original_tag = SAU
+					}
+					original_tag = GRE
+				}
+				country_event = {
+					id = saudi.76
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_autonomous_provinces
+		icon = GFX_focus_generic_treaty
+		prerequisite = { focus = SAU_diplomatic_approach }
+		x = 2
+		y = 0
+		relative_position_id = SAU_yugoslav_protection
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		available = {
+			num_subjects > 0
+		}
+
+		completion_reward = {
+			every_country = {
+				limit = {
+					is_subject_of = ROOT
+					NOT = {
+						has_cosmetic_tag = ROME_PROVINCE
+					}
+				}
+				add_ideas = SAU_roman_province
+				set_cosmetic_tag = ROME_PROVINCE
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_take_down_france
+		icon = GFX_focus_attack_france
+		prerequisite = { focus = SAU_iberian_expansion }
+		x = 0
+		y = 2
+		relative_position_id = SAU_iberian_expansion
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		available = {
+			NOT = {
+				is_in_faction_with = FRA
+			}
+		}
+
+		bypass = {
+			16 = {
+				owner = {
+					OR = {
+						original_tag = SAU
+						is_subject_of = ROOT
+					}
+				}
+			}
+		}
+
+		completion_reward = {
+			create_wargoal = {
+				target = FRA
+				type = puppet_wargoal_focus
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_benelux_intervention
+		icon = GFX_focus_hol_oranje_boven
+		prerequisite = { focus = SAU_take_down_france }
+		x = -1
+		y = 1
+		relative_position_id = SAU_take_down_france
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		available = {
+			OR = {
+				NOT = {
+					is_in_faction_with = BEL
+					is_in_faction_with = HOL
+					is_in_faction_with = LUX
+				}
+			}
+		}
+
+		bypass = {
+			6 = {
+				owner = {
+					OR = {
+						original_tag = SAU
+						is_subject_of = ROOT
+					}
+				}
+			}
+			7 = {
+				owner = {
+					OR = {
+						original_tag = SAU
+						is_subject_of = ROOT
+					}
+				}
+			}
+			8 = {
+				owner = {
+					OR = {
+						original_tag = SAU
+						is_subject_of = ROOT
+					}
+				}
+			}
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					country_exists = BEL
+					NOT = {
+						BEL = {
+							is_subject_of = ROOT
+						}
+					}
+				}
+				BEL = {
+					country_event = {
+						id = saudi.80
+					}
+				}
+			}
+			if = {
+				limit = {
+					country_exists = HOL
+					NOT = {
+						HOL = {
+							is_subject_of = ROOT
+						}
+					}
+				}
+				HOL = {
+					country_event = {
+						id = saudi.80
+					}
+				}
+			}
+			if = {
+				limit = {
+					country_exists = LUX
+					NOT = {
+						LUX = {
+							is_subject_of = ROOT
+						}
+					}
+				}
+				LUX = {
+					country_event = {
+						id = saudi.80
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_europe_minors
+		icon = GFX_goal_generic_military_deal
+		prerequisite = { focus = SAU_take_down_france }
+		x = 1
+		y = 1
+		relative_position_id = SAU_take_down_france
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		bypass = {
+			owns_state = 48
+			owns_state = 46
+			owns_state = 43
+			owns_state = 4
+			owns_state = 3
+			owns_state = 44
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = SAU_unlock_decision_ultimatum_europe_minors
+		}
+	}
+
+	focus = {
+		id = SAU_reclaim_italia
+		icon = GFX_focus_attack_italy
+		prerequisite = { focus = SAU_benelux_intervention }
+		prerequisite = { focus = SAU_europe_minors }
+		x = 0
+		y = 1
+		relative_position_id = SAU_benelux_intervention
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		bypass = {
+			OR = {
+				owns_state = 158
+				owns_state = 159
+				owns_state = 850
+				owns_state = 39
+				owns_state = 160
+				owns_state = 736
+				owns_state = 852
+				owns_state = 163
+				owns_state = 161
+				owns_state = 162
+				owns_state = 2
+				owns_state = 157
+				owns_state = 117
+				owns_state = 849
+				owns_state = 117
+				owns_state = 156
+				owns_state = 115
+				owns_state = 114w
+			}
+			NOT = {
+				country_exists = ITA
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+
+		completion_reward = {
+			create_wargoal = {
+				target = ITA
+				type = puppet_wargoal_focus
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_reclaim_britannia
+		icon = GFX_focus_attack_britain
+		prerequisite = { focus = SAU_benelux_intervention }
+		prerequisite = { focus = SAU_europe_minors }
+		x = 0
+		y = 1
+		relative_position_id = SAU_europe_minors
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+
+		completion_reward = {
+			create_wargoal = {
+				target = ENG
+				type = puppet_wargoal_focus
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_revenge_for_teutoburg
+		icon = GFX_focus_attack_germany
+		prerequisite = { focus = SAU_reclaim_italia }
+		prerequisite = { focus = SAU_reclaim_britannia }
+		x = 1
+		y = 1
+		relative_position_id = SAU_reclaim_italia
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+
+		completion_reward = {
+			custom_effect_tooltip = SAU_unlock_decision_slap_monkey
+			create_wargoal = {
+				target = GER
+				type = puppet_wargoal_focus
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_expand_the_coalition
+		icon = GFX_goal_generic_intelligence_exchange
+		prerequisite = { focus = SAU_anti_fascist_coalition }
+		mutually_exclusive = { focus = SAU_leaders_claim_on_rome }
+		relative_position_id = SAU_aid_for_the_resistance
+		x = 2
+		y = 2
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			is_faction_leader = yes
+			always = no
+		}
+	
+		completion_reward = {
+			add_named_threat = { threat = -3 name = SAU_democratic_coalition }
+			every_country = {
+				limit = {
+					has_government = fascism
+				}
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = SAU_anti_fascism_modifier
+				}
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.1
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_strike_at_germany
+		icon = GFX_focus_attack_germany
+		prerequisite = { focus = SAU_expand_the_coalition }
+		x = -2
+		y = 1
+		relative_position_id = SAU_expand_the_coalition
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		available = {
+			OR = {
+				is_in_faction_with = POL
+				is_in_faction_with = HOL
+				is_in_faction_with = BEL
+				is_in_faction_with = LUX
+			}
+			GER = {
+				has_government = fascism
+			}
+			NOT = {
+				is_in_faction_with = GER
+			}
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					OR = {
+						is_in_faction_with = LUX
+						is_in_faction_with = BEL
+						is_in_faction_with = HOL
+						is_in_faction_with = POL
+					}
+					NOT = {
+						count_triggers = {
+							amount = 2
+							is_in_faction_with = LUX
+							is_in_faction_with = BEL
+							is_in_faction_with = HOL
+							is_in_faction_with = POL
+						}
+					}
+				}
+				add_ideas = SAU_anti_german_buff_1
+			}
+			if = {
+				limit = {
+					count_triggers = {
+						amount = 2
+						is_in_faction_with = LUX
+						is_in_faction_with = BEL
+						is_in_faction_with = HOL
+						is_in_faction_with = POL
+					}
+					NOT = {
+						count_triggers = {
+							amount = 3
+							is_in_faction_with = LUX
+							is_in_faction_with = BEL
+							is_in_faction_with = HOL
+							is_in_faction_with = POL
+						}
+					}
+				}
+				add_ideas = SAU_anti_german_buff_2
+			}
+			if = {
+				limit = {
+					count_triggers = {
+						amount = 3
+						is_in_faction_with = LUX
+						is_in_faction_with = BEL
+						is_in_faction_with = HOL
+						is_in_faction_with = POL
+					}
+					NOT = {
+						count_triggers = {
+							amount = 4
+							is_in_faction_with = LUX
+							is_in_faction_with = BEL
+							is_in_faction_with = HOL
+							is_in_faction_with = POL
+						}
+					}
+				}
+				add_ideas = SAU_anti_german_buff_3
+			}
+			if = {
+				limit = {
+					count_triggers = {
+						amount = 4
+						is_in_faction_with = LUX
+						is_in_faction_with = BEL
+						is_in_faction_with = HOL
+						is_in_faction_with = POL
+					}
+				}
+				add_ideas = SAU_anti_german_buff_4
+			}
+			create_wargoal = {
+				target = GER
+				type = puppet_wargoal_focus
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_invite_lowlands
+		icon = GFX_focus_hol_liberation
+		prerequisite = { focus = SAU_expand_the_coalition }
+		x = 0
+		y = 1
+		relative_position_id = SAU_expand_the_coalition
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		bypass = {
+			is_in_faction_with = LUX
+			is_in_faction_with = BEL
+			is_in_faction_with = HOL
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			every_country = {
+				limit = {
+					NOT = {
+						is_in_faction_with = SAU
+					}
+					capital_scope = {
+						OR = {
+							state = 8
+							state = 34
+							state = 6
+							state = 35
+							state = 7
+							state = 36
+						}
+					}
+				}
+				country_event = {
+					id = saudi.81
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_polish_alliance
+		icon = GFX_focus_generic_polish_deal
+		prerequisite = { focus = SAU_invite_lowlands }
+		relative_position_id = SAU_invite_lowlands
+		x = 0
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		bypass = {
+			OR = {
+				is_in_faction_with = POL
+				NOT = {
+					country_exists = POL
+				}
+			}
+		}
+
+		completion_reward = {
+			POL = {
+				country_event = {
+					id = saudi.81
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_promote_democracy
+		icon = GFX_focus_generic_the_giant_wakes
+		prerequisite = { focus = SAU_expand_the_coalition }
+		relative_position_id = SAU_expand_the_coalition
+		x = 2
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		bypass = {
+			has_government = democratic
+		}
+		completion_reward = {
+			set_party_name = {
+				ideology = democratic
+				long_name = "Democratic Movement for Arabia"
+				name = "DMA"
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.1
+			}
+			add_political_power = 70
+		}
+	}
+
+	focus = {
+		id = SAU_monarchy_compromise
+		icon = GFX_goal_tfv_strengthen_commonwealth_ties
+		prerequisite = { focus = SAU_promote_democracy }
+		relative_position_id = SAU_promote_democracy
+		x = 0
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			democratic > 0.3
+		}
+
+		completion_reward = {
+			set_politics = {
+				ruling_party = democratic
+				elections_allowed = yes
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.1
+			}
+			add_ideas = SAU_abdulaziz_monarch
+			add_country_leader_trait = democratic_reformer
+		}
+	}
+
+	focus = {
+		id = SAU_hejaz_revolt
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = { focus = SAU_prepare }
+		relative_position_id = SAU_prepare
+		x = 2
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+		
+		available = {
+			always = no
+		}
+
+		completion_reward = {
+			every_owned_state = {
+				limit = {
+					OR = {
+						state = 679
+						state = 855
+						state = 856
+					}
+				}
+				HJZ = {
+					transfer_state = PREV
+				}
+			}
+			declare_war_on = {
+				target = HJZ
+				type = take_state_focus
+				generator = { 679 855 856 }
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_altariq_alearabiu_alsarie
+		icon = GFX_goal_generic_construct_infrastructure
+		relative_position_id = SAU_prepare
+		x = 19
+		y = 0
+		cost = 10
+		available = {
+			OR = {
+				has_full_control_of_state = 678
+				has_full_control_of_state = 858
+				has_full_control_of_state = 856
+				has_full_control_of_state = 292
+				has_full_control_of_state = 859
+				has_full_control_of_state = 679
+				has_full_control_of_state = 857
+				has_full_control_of_state = 855
+				has_full_control_of_state = 854
+			}
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		bypass = {
+			OR = {
+				NOT = {
+					owns_state = 678
+				}
+				678 = {
+					non_damaged_building_level = {
+						building = infrastructure
+						level > 4
+					}
+				}
+			}
+			OR = {
+				NOT = {
+					owns_state = 858
+				}
+				858 = {
+					non_damaged_building_level = {
+						building = infrastructure
+						level > 4
+					}
+				}
+			}
+			OR = {
+				NOT = {
+					owns_state = 856
+				}
+				856 = {
+					non_damaged_building_level = {
+						building = infrastructure
+						level > 4
+					}
+				}
+			}
+			OR = {
+				NOT = {
+					owns_state = 292
+				}
+				292 = {
+					non_damaged_building_level = {
+						building = infrastructure
+						level > 4
+					}
+				}
+			}
+			OR = {
+				NOT = {
+					owns_state = 859
+				}
+				859 = {
+					non_damaged_building_level = {
+						building = infrastructure
+						level > 4
+					}
+				}
+			}
+			OR = {
+				NOT = {
+					owns_state = 679
+				}
+				679 = {
+					non_damaged_building_level = {
+						building = infrastructure
+						level > 4
+					}
+				}
+			}
+			OR = {
+				NOT = {
+					owns_state = 857
+				}
+				857 = {
+					non_damaged_building_level = {
+						building = infrastructure
+						level > 4
+					}
+				}
+			}
+			OR = {
+				NOT = {
+					owns_state = 855
+				}
+				855 = {
+					non_damaged_building_level = {
+						building = infrastructure
+						level > 4
+					}
+				}
+			}
+			OR = {
+				NOT = {
+					owns_state = 854
+				}
+				854 = {
+					non_damaged_building_level = {
+						building = infrastructure
+						level > 4
+					}
+				}
+			}
+		}
+
+		completion_reward = {
+			if = {
+				limit = { owns_state = 678 }
+				678 = {
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = { owns_state = 858 }
+				858 = {
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = { owns_state = 856 }
+				856 = {
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = { owns_state = 292 }
+				292 = {
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = { owns_state = 859 }
+				859 = {
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = { owns_state = 679 }
+				679 = {
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = { owns_state = 857 }
+				857 = {
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = { owns_state = 855 }
+				855 = {
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = { owns_state = 854 }
+				854 = {
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_arab_war_economy
+		icon = GFX_focus_generic_combined_arms
+		prerequisite = { focus = SAU_altariq_alearabiu_alsarie }
+		relative_position_id = SAU_altariq_alearabiu_alsarie
+		x = -4
+		y = 1
+		cost = 10
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			OR = {
+				has_completed_focus = SAU_tank_conversions
+				has_completed_focus = SAU_modern_tanks
+			}
+			OR = {
+				has_completed_focus = SAU_supremacy_of_offense
+				has_completed_focus = SAU_supremacy_of_defense
+			}
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_idea = war_economy }
+					NOT = { has_idea = tot_economic_mobilisation }
+				}
+				add_ideas = war_economy
+				if = {
+					limit = {
+						AND = {
+							has_war_support < 0.6
+							threat < 0.5
+						}
+					}
+					add_ideas = SAU_public_opposes_mobilisation
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 292 }
+				limit = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = SAU_army_modernization
+		icon = GFX_goal_generic_army_doctrines
+		relative_position_id = SAU_altariq_alearabiu_alsarie
+		prerequisite = { focus = SAU_altariq_alearabiu_alsarie }
+		x = -2
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			army_experience = 25
+		}
+	}
+
+	focus = {
+		id = SAU_royal_saudi_navy
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		prerequisite = { focus = SAU_altariq_alearabiu_alsarie }
+		x = 0
+		y = 1
+		relative_position_id = SAU_altariq_alearabiu_alsarie
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 0
+				num_of_factories < 25
+				NOT = {
+					AND = {
+						has_completed_focus = SAU_develop_north
+						has_completed_focus = SAU_develop_hejaz
+						has_completed_focus = SAU_develop_south
+						has_completed_focus = SAU_focus_industrial_investments
+						has_completed_focus = SAU_arab_war_economy
+						OR = {
+							has_completed_focus = SAU_loyalty_to_abdulaziz
+							has_completed_focus = SAU_anti_fascist_coalition
+						}
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = {
+						has_tech = basic_battery
+					}
+				}
+				set_technology = { basic_battery = 1 }
+			}
+			navy_experience = 10
+			add_doctrine_cost_reduction = {
+				name = RAJ_royal_indian_navy
+				cost_reduction = 0.5
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+
+
+	focus = {
+		id = SAU_military_aeronautical_institute
+		icon = GFX_focus_CZE_military_aeronautical_institute
+		relative_position_id = SAU_altariq_alearabiu_alsarie
+		prerequisite = {
+			focus = SAU_altariq_alearabiu_alsarie
+		}
+		x = 2
+		y = 1
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war = yes
+					threat > 0.5
+				}
+			}
+			modifier = {
+				factor = 0
+				num_of_factories < 15
+				NOT = {
+					AND = {
+						has_completed_focus = SAU_develop_north
+						has_completed_focus = SAU_develop_hejaz
+						has_completed_focus = SAU_develop_south
+						has_completed_focus = SAU_focus_industrial_investments
+						has_completed_focus = SAU_arab_war_economy
+						OR = {
+							has_completed_focus = SAU_loyalty_to_abdulaziz
+							has_completed_focus = SAU_anti_fascist_coalition
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5
+				num_of_factories < 20
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			air_experience = 50
+		}
+	}
+
+	focus = {
+		id = SAU_jihaz_almukhabarat_aleaskaria
+		icon = GFX_focus_generic_secret_service_agency
+		prerequisite = { focus = SAU_army_modernization }
+
+		x = -4
+		y = 1
+		relative_position_id = SAU_army_modernization
+		cost = 5
+		completion_reward = {
+			if = {
+				limit = {
+					has_intelligence_agency = no
+				}
+				create_intelligence_agency = yes
+			}
+			add_ideas = SAU_jihaz_almukhabarat_aleaskaria_idea
+		}
+	}
+
+	focus = {
+		id = SAU_expand_our_military_industries
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = SAU_army_modernization }
+		relative_position_id = SAU_army_modernization
+		x = -6
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = arms_factory
+										size > 1
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_supremacy_of_offense
+		icon = GFX_goal_generic_major_war
+		prerequisite = { focus = SAU_expand_our_military_industries }
+		mutually_exclusive = { focus = SAU_supremacy_of_defense }
+		x = -2
+		y = 1
+		relative_position_id = SAU_expand_our_military_industries
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = YUG_supremacy_of_offense
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_mobile_warfare
+				category = cat_superior_firepower
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_superior_artillery
+		icon = GFX_goal_generic_army_artillery2
+		prerequisite = { focus = SAU_supremacy_of_offense }
+		relative_position_id = SAU_supremacy_of_offense
+		x = 0
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			has_completed_focus = SAU_study_artillery
+		}
+
+		completion_reward = {
+			add_ideas = SAU_idea_superior_artillery
+		}
+	}
+
+	focus = {
+		id = SAU_supremacy_of_defense
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = SAU_expand_our_military_industries }
+		mutually_exclusive = { focus = SAU_supremacy_of_offense }
+		x = 0
+		y = 1
+		relative_position_id = SAU_expand_our_military_industries
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = YUG_supremacy_of_defense
+				cost_reduction = 0.5
+				uses = 2
+				category = cat_grand_battle_plan
+				category = cat_mass_assault
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_small_arms
+		icon = GFX_goal_generic_small_arms
+		prerequisite = { focus = SAU_army_modernization }
+		x = -2
+		y = 1
+		relative_position_id = SAU_army_modernization
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = YUG_small_arms
+				bonus = 1.00
+				uses = 1
+				category = infantry_weapons
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_study_artillery
+		icon = GFX_goal_generic_army_artillery2
+		prerequisite = { focus = SAU_small_arms }
+		x = -2
+		y = 1
+		relative_position_id = SAU_small_arms
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = SAU_artillery_bonus
+				bonus = 1.00
+				uses = 2
+				category = artillery
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_motorize_the_cavalry
+		icon = GFX_goal_generic_cavalry
+		prerequisite = { focus = SAU_small_arms }
+		x = 0
+		y = 1
+		relative_position_id =  SAU_small_arms
+
+		cost = 5
+
+		available = {
+
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = YUG_motorize_the_cavalry
+				bonus = 3.0
+				technology = motorised_infantry
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_motorized_logistics
+		icon = GFX_goal_generic_army_motorized
+		prerequisite = { focus = SAU_motorize_the_cavalry }
+		x = -2
+		y = 1
+		relative_position_id = SAU_motorize_the_cavalry
+		mutually_exclusive = { focus = SAU_armored_cavalry }
+
+		cost = 5
+
+		available = {
+
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = YUG_motorized_logistics
+				bonus = 1.0
+				uses = 2
+				category = hospital_tech
+				category = logistics_tech
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_armored_cavalry
+		icon = GFX_goal_generic_build_tank
+		prerequisite = { focus = SAU_motorize_the_cavalry }
+		x = 0
+		y = 1
+		relative_position_id = SAU_motorize_the_cavalry
+		mutually_exclusive = { focus = SAU_motorized_logistics }
+
+		cost = 5
+
+		available = {
+
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = YUG_armored_cavalry
+				bonus = 1.0
+				uses = 1
+				category = cat_mechanized_equipment
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_tank_conversions
+		icon = GFX_goal_generic_production2
+		prerequisite = { focus = SAU_motorized_logistics focus = SAU_armored_cavalry }
+		mutually_exclusive = { focus = SAU_modern_tanks }
+		x = -2
+		y = 1
+		relative_position_id = SAU_armored_cavalry
+
+		cost = 5
+
+		available = {
+
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_tech = gwtank_chassis }
+				}
+				set_technology = { gwtank_chassis = 1 }
+			}
+			add_ideas = YUG_idea_tank_conversions
+		}
+	}
+
+	focus = {
+		id = SAU_modern_tanks
+		icon = GFX_goal_generic_army_tanks
+		prerequisite = { focus = SAU_motorized_logistics focus = SAU_armored_cavalry }
+		mutually_exclusive = { focus = SAU_tank_conversions }
+		x = 0
+		y = 1
+		relative_position_id = SAU_armored_cavalry
+
+		cost = 5
+
+		available = {
+
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_tech = gwtank_chassis }
+				}
+				set_technology = { gwtank_chassis = 1 }
+				add_tech_bonus = {
+					name = YUG_modern_tanks
+					bonus = 0.5
+					uses = 1
+					category = armor
+				}
+			}
+			else = {
+				add_tech_bonus = {
+					name = YUG_modern_tanks
+					bonus = 0.5
+					uses = 2
+					category = armor
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_tank_licenses
+		icon = GFX_focus_generic_license_production
+		prerequisite = { focus = SAU_tank_conversions focus = SAU_modern_tanks }
+		x = 0
+		y = 1
+		relative_position_id = SAU_modern_tanks
+
+		cost = 5
+
+		available = {
+
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+
+		completion_reward = {
+			add_ideas = YUG_tank_licenses
+		}
+	}
+
+	focus = {
+		id = SAU_jeddah_university_land
+		icon = GFX_focus_research2
+		prerequisite = { focus = SAU_army_modernization }
+		x = 0
+		y = 1
+		relative_position_id = SAU_army_modernization
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			has_completed_focus = SAU_develop_hejaz
+			owns_state = 856
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			add_research_slot = 1
+			army_experience = 10
+		}
+	}
+
+	focus = {
+		id = SAU_develop_riyadh
+		icon = GFX_focus_generic_industry_1
+		prerequisite = { focus = SAU_army_modernization focus = SAU_royal_saudi_navy focus = SAU_military_aeronautical_institute }
+		relative_position_id = SAU_royal_saudi_navy
+		x = 0
+		y = 1
+		cost = 5
+		available = {
+			has_full_control_of_state = 292
+			owns_state = 292
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			292 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			if = {
+				limit = {
+					292 = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 1
+							include_locked = yes
+						}
+					}
+				}
+				292 = {
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_develop_hejaz
+		icon = GFX_focus_generic_industry_2
+		prerequisite = { focus = SAU_develop_riyadh }
+		relative_position_id = SAU_develop_riyadh
+		x = -2
+		y = 1
+		cost = 5
+		available = {
+			has_full_control_of_state = 679
+			has_full_control_of_state = 855
+			has_full_control_of_state = 856
+			owns_state = 679
+			owns_state = 855
+			owns_state = 856
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			every_state = {
+				limit = {
+					OR = {
+						state = 679
+						state = 855
+						state = 856
+					}
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+					OR = {
+						state = 679
+						state = 855
+						state = 856
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = SAU_develop_north
+		icon = GFX_focus_generic_industry_2
+		prerequisite = { focus = SAU_develop_riyadh }
+		relative_position_id = SAU_develop_riyadh
+		x = 0
+		y = 1
+		cost = 5
+		available = {
+			has_full_control_of_state = 854
+			has_full_control_of_state = 857
+			owns_state = 854
+			owns_state = 857
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			every_state = {
+				limit = {
+					OR = {
+						state = 854
+						state = 857
+					}
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+					OR = {
+						state = 854
+						state = 857
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_develop_south
+		icon = GFX_focus_generic_industry_2
+		prerequisite = { focus = SAU_develop_riyadh }
+		relative_position_id = SAU_develop_riyadh
+		x = 2
+		y = 1
+		cost = 5
+		available = {
+			has_full_control_of_state = 678
+			has_full_control_of_state = 858
+			owns_state = 678
+			owns_state = 858
+		}
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			every_state = {
+				limit = {
+					OR = {
+						state = 678
+						state = 858
+						state = 859
+					}
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+					OR = {
+						state = 678
+						state = 858
+						state = 859
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_expand_our_civilian_industries
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = SAU_develop_hejaz }
+		prerequisite = { focus = SAU_develop_north }
+		prerequisite = { focus = SAU_develop_south }
+		relative_position_id = SAU_develop_north
+		x = 0
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 1
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_focus_industrial_investments
+		icon = GFX_focus_mex_privatisation
+		prerequisite = { focus = SAU_expand_our_civilian_industries }
+		relative_position_id = SAU_expand_our_civilian_industries
+		x = 0
+		y = 1
+		cost = 10
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			OR = {
+				has_completed_focus = SAU_modernizing_navy
+				has_completed_focus = SAU_rule_the_air
+			}
+		}
+
+		completion_reward = {
+			add_ideas = SAU_industrial_investments
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_madinah_dockyards
+		icon = GFX_goal_generic_construct_naval_dockyard
+		x = 0
+		y = 2
+		relative_position_id = SAU_develop_hejaz
+		prerequisite = { focus = SAU_develop_hejaz }
+
+		cost = 5
+
+		available = {
+			has_completed_focus = SAU_royal_saudi_navy
+			any_state = {
+				is_controlled_by = ROOT
+				is_coastal = yes
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 0
+				num_of_factories < 25
+				NOT = {
+					AND = {
+						has_completed_focus = SAU_develop_north
+						has_completed_focus = SAU_develop_hejaz
+						has_completed_focus = SAU_develop_south
+						has_completed_focus = SAU_focus_industrial_investments
+						has_completed_focus = SAU_arab_war_economy
+						OR = {
+							has_completed_focus = SAU_loyalty_to_abdulaziz
+							has_completed_focus = SAU_anti_fascist_coalition
+						}
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			navy_experience = 5
+			random_owned_controlled_state = {
+				prioritize = { 679 855 856 }
+				limit = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = dockyard
+						size > 1
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = dockyard
+										size > 1
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+					is_coastal = yes
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+			if = {
+				limit = {
+					controls_state = 679
+				}
+				679 = {
+					add_building_construction = {
+						type = naval_base
+						level = 1
+						instant_build = yes
+						province = 2033
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_tabuk_dockyards
+		icon = GFX_goal_generic_construct_naval_dockyard
+		relative_position_id = SAU_develop_south
+		prerequisite = { focus = SAU_develop_south }
+		x = 0
+		y = 2
+
+		cost = 5
+
+		available = {
+			has_completed_focus = SAU_royal_saudi_navy
+			any_state = {
+				is_controlled_by = ROOT
+				is_coastal = yes
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 0
+				num_of_factories < 25
+				NOT = {
+					AND = {
+						has_completed_focus = SAU_develop_north
+						has_completed_focus = SAU_develop_hejaz
+						has_completed_focus = SAU_develop_south
+						has_completed_focus = SAU_focus_industrial_investments
+						has_completed_focus = SAU_arab_war_economy
+						OR = {
+							has_completed_focus = SAU_loyalty_to_abdulaziz
+							has_completed_focus = SAU_anti_fascist_coalition
+						}
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			navy_experience = 5
+			random_owned_controlled_state = {
+				prioritize = { 678 859 }
+				limit = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = dockyard
+						size > 1
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = dockyard
+										size > 1
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+					is_coastal = yes
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+			if = {
+				limit = {
+					controls_state = 678
+				}
+				678 = {
+					add_building_construction = {
+						type = naval_base
+						level = 1
+						instant_build = yes
+						province = 4932
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_screening_effort
+		icon = GFX_goal_generic_navy_cruiser
+		prerequisite = { focus = SAU_madinah_dockyards }
+		prerequisite = { focus = SAU_tabuk_dockyards }
+		mutually_exclusive = { focus = SAU_cruiser_effort }
+		x = 1
+		y = 1
+		relative_position_id = SAU_madinah_dockyards
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 0
+				num_of_factories < 25
+				NOT = {
+					AND = {
+						has_completed_focus = SAU_develop_north
+						has_completed_focus = SAU_develop_hejaz
+						has_completed_focus = SAU_develop_south
+						has_completed_focus = SAU_focus_industrial_investments
+						has_completed_focus = SAU_arab_war_economy
+						OR = {
+							has_completed_focus = SAU_loyalty_to_abdulaziz
+							has_completed_focus = SAU_anti_fascist_coalition
+						}
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_tech = early_ship_hull_light
+				}
+				add_tech_bonus = {
+					name = RAJ_screening_effort
+					bonus = 1.5
+					uses = 1
+					category = dd_tech
+					category = cl_tech
+				}
+			}
+			else = {
+				set_technology = { early_ship_hull_light = 1 }
+			}
+			
+		}
+	}
+
+	focus = {
+		id = SAU_cruiser_effort
+		icon = GFX_goal_generic_navy_battleship
+		prerequisite = { focus = SAU_madinah_dockyards }
+		prerequisite = { focus = SAU_tabuk_dockyards }
+		mutually_exclusive = { focus = SAU_screening_effort }
+		x = 3
+		y = 1
+		relative_position_id = SAU_madinah_dockyards
+
+		cost = 5
+
+		available = {
+			OR = {
+				has_full_control_of_state = 679
+				has_full_control_of_state = 855
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 0
+				num_of_factories < 25
+				NOT = {
+					AND = {
+						has_completed_focus = SAU_develop_north
+						has_completed_focus = SAU_develop_hejaz
+						has_completed_focus = SAU_develop_south
+						has_completed_focus = SAU_focus_industrial_investments
+						has_completed_focus = SAU_arab_war_economy
+						OR = {
+							has_completed_focus = SAU_loyalty_to_abdulaziz
+							has_completed_focus = SAU_anti_fascist_coalition
+						}
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_tech = early_ship_hull_cruiser
+				}
+				add_tech_bonus = {
+					name = RAJ_cruiser_effort
+					bonus = 1.5
+					uses = 1
+					category = bc_tech
+					category = ca_tech
+				}
+			}
+			else = {
+				set_technology = { early_ship_hull_cruiser = 1 }
+			}
+			if = {
+				limit = {
+					has_full_control_of_state = 855
+				}
+				855 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard		
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_full_control_of_state = 679
+				}
+				679 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard		
+						level = 1
+						instant_build = yes
+					}
+				}
+			}	
+		}
+	}
+
+	focus = {
+		id = SAU_submarine_effort
+		icon = GFX_goal_generic_navy_submarine
+		prerequisite = { focus = SAU_screening_effort focus = SAU_cruiser_effort }
+		mutually_exclusive = { focus = SAU_capital_ship_effort }
+		x = 0
+		y = 1
+		relative_position_id = SAU_screening_effort
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 0
+				num_of_factories < 25
+				NOT = {
+					AND = {
+						has_completed_focus = SAU_develop_north
+						has_completed_focus = SAU_develop_hejaz
+						has_completed_focus = SAU_develop_south
+						has_completed_focus = SAU_focus_industrial_investments
+						has_completed_focus = SAU_arab_war_economy
+						OR = {
+							has_completed_focus = SAU_loyalty_to_abdulaziz
+							has_completed_focus = SAU_anti_fascist_coalition
+						}
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_tech = early_ship_hull_submarine
+				}
+				add_tech_bonus = {
+					name = RAJ_submarine_effort
+					bonus = 1.5
+					uses = 1
+					category = ss_tech
+				}
+			}
+			else = {
+				set_technology = { early_ship_hull_submarine = 1 }
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_capital_ship_effort
+		icon = GFX_goal_generic_navy_battleship
+		prerequisite = { focus = SAU_screening_effort focus = SAU_cruiser_effort }
+		mutually_exclusive = { focus = SAU_submarine_effort }
+		x = 0
+		y = 1
+		relative_position_id = SAU_cruiser_effort
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 0
+				num_of_factories < 25
+				NOT = {
+					AND = {
+						has_completed_focus = SAU_develop_north
+						has_completed_focus = SAU_develop_hejaz
+						has_completed_focus = SAU_develop_south
+						has_completed_focus = SAU_focus_industrial_investments
+						has_completed_focus = SAU_arab_war_economy
+						OR = {
+							has_completed_focus = SAU_loyalty_to_abdulaziz
+							has_completed_focus = SAU_anti_fascist_coalition
+						}
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_tech = early_ship_hull_heavy
+					has_tech = early_ship_hull_carrier
+				}
+				add_tech_bonus = {
+					name = RAJ_capital_ship_effort
+					bonus = 1.5
+					uses = 1
+					category = cv_tech
+					category = bb_tech
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						NOT = {
+							has_tech = early_ship_hull_heavy
+						}
+					}
+					set_technology = { early_ship_hull_heavy = 1 }
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_tech = early_ship_hull_carrier
+						}
+					}
+					set_technology = { early_ship_hull_carrier = 1 }
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_modernizing_navy
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		prerequisite = { focus = SAU_submarine_effort focus = SAU_capital_ship_effort }
+		x = 1
+		y = 1
+		relative_position_id = SAU_submarine_effort
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 10
+			modifier = {
+				factor = 0
+				num_of_factories < 25
+				NOT = {
+					AND = {
+						has_completed_focus = SAU_develop_north
+						has_completed_focus = SAU_develop_hejaz
+						has_completed_focus = SAU_develop_south
+						has_completed_focus = SAU_focus_industrial_investments
+						has_completed_focus = SAU_arab_war_economy
+						OR = {
+							has_completed_focus = SAU_loyalty_to_abdulaziz
+							has_completed_focus = SAU_anti_fascist_coalition
+						}
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_tech = mtg_transport }
+				}
+				set_technology = { mtg_transport = 1 }
+			}
+
+			add_doctrine_cost_reduction = {
+				name = RAJ_modernizing_navy
+				cost_reduction = 0.75
+				uses = 1
+				category = naval_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_the_investor_seizes_control
+		icon = GFX_goal_demand_sudetenland
+		prerequisite = { focus = SAU_modernizing_navy }
+		relative_position_id = SAU_modernizing_navy
+		x = 0
+		y = 1
+		cost = 5
+		allow_branch = {
+			has_global_flag = SAU_investor_seized_control
+		}
+	}
+
+	focus = {
+		id = SAU_riyadh_university_air
+		icon = GFX_focus_research2
+		prerequisite = { focus = SAU_military_aeronautical_institute }
+		x = 0
+		y = 1
+		relative_position_id = SAU_military_aeronautical_institute
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			has_completed_focus = SAU_develop_riyadh
+			owns_state = 292
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			add_research_slot = 1
+			air_experience = 20
+		}
+	}
+
+	focus = {
+		id = SAU_import_foreign_fighters
+		icon = GFX_goal_generic_air_fighter
+		prerequisite = { focus = SAU_military_aeronautical_institute }
+		x = 2
+		y = 1
+		relative_position_id = SAU_military_aeronautical_institute
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war = yes
+					threat > 0.5
+				}
+			}
+			modifier = {
+				factor = 0
+				num_of_factories < 15
+				NOT = {
+					AND = {
+						has_completed_focus = SAU_develop_north
+						has_completed_focus = SAU_develop_hejaz
+						has_completed_focus = SAU_develop_south
+						has_completed_focus = SAU_focus_industrial_investments
+						has_completed_focus = SAU_arab_war_economy
+						OR = {
+							has_completed_focus = SAU_loyalty_to_abdulaziz
+							has_completed_focus = SAU_anti_fascist_coalition
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5
+				num_of_factories < 20
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = CZE_import_foreign_fighters #@#
+				bonus = 1.0
+				uses = 1
+				category = light_fighter
+				category = cat_heavy_fighter
+			}
+			add_timed_idea = { idea = SAU_fighter_imports days = 365 }
+		}
+	}
+
+	focus = {
+		id = SAU_light_fighter_focus
+		icon = GFX_goal_generic_air_fighter2
+		prerequisite = { focus = SAU_import_foreign_fighters }
+		mutually_exclusive = { focus = SAU_heavy_fighter_focus }
+		x = 0
+		y = 1
+		relative_position_id = SAU_import_foreign_fighters
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war = yes
+					threat > 0.5
+				}
+			}
+			modifier = {
+				factor = 0
+				num_of_factories < 15
+				NOT = {
+					AND = {
+						has_completed_focus = SAU_develop_north
+						has_completed_focus = SAU_develop_hejaz
+						has_completed_focus = SAU_develop_south
+						has_completed_focus = SAU_focus_industrial_investments
+						has_completed_focus = SAU_arab_war_economy
+						OR = {
+							has_completed_focus = SAU_loyalty_to_abdulaziz
+							has_completed_focus = SAU_anti_fascist_coalition
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5
+				num_of_factories < 20
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = CZE_light_fighter_focus #@#
+				bonus = 1.0
+				uses = 1
+				category = light_fighter
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_heavy_fighter_focus
+		icon = GFX_goal_generic_air_fighter
+		prerequisite = { focus = SAU_import_foreign_fighters }
+		mutually_exclusive = { focus = SAU_light_fighter_focus }
+		x = 2
+		y = 1
+		relative_position_id = SAU_import_foreign_fighters
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war = yes
+					threat > 0.5
+				}
+			}
+			modifier = {
+				factor = 0
+				num_of_factories < 15
+				NOT = {
+					AND = {
+						has_completed_focus = SAU_develop_north
+						has_completed_focus = SAU_develop_hejaz
+						has_completed_focus = SAU_develop_south
+						has_completed_focus = SAU_focus_industrial_investments
+						has_completed_focus = SAU_arab_war_economy
+						OR = {
+							has_completed_focus = SAU_loyalty_to_abdulaziz
+							has_completed_focus = SAU_anti_fascist_coalition
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5
+				num_of_factories < 20
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = CZE_heavy_fighter_focus #@#
+				bonus = 1.0
+				uses = 1
+				category = cat_heavy_fighter
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_import_foreign_bombers
+		icon = GFX_goal_generic_air_bomber
+		prerequisite = { focus = SAU_light_fighter_focus focus = SAU_heavy_fighter_focus }
+		x = 0
+		y = 1
+		relative_position_id = SAU_light_fighter_focus
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war = yes
+					threat > 0.5
+				}
+			}
+			modifier = {
+				factor = 0
+				num_of_factories < 15
+				NOT = {
+					AND = {
+						has_completed_focus = SAU_develop_north
+						has_completed_focus = SAU_develop_hejaz
+						has_completed_focus = SAU_develop_south
+						has_completed_focus = SAU_focus_industrial_investments
+						has_completed_focus = SAU_arab_war_economy
+						OR = {
+							has_completed_focus = SAU_loyalty_to_abdulaziz
+							has_completed_focus = SAU_anti_fascist_coalition
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5
+				num_of_factories < 20
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = CZE_import_foreign_bombers #@#
+				bonus = 1.0
+				uses = 1
+				category = cas_bomber
+				category = tactical_bomber
+			}
+			add_timed_idea = { idea = SAU_bomber_imports days = 365 }
+		}
+	}
+
+	focus = {
+		id = SAU_cas_focus
+		icon = GFX_goal_generic_CAS
+		prerequisite = { focus = SAU_import_foreign_bombers }
+		mutually_exclusive = { focus = SAU_tac_focus }
+		x = 0
+		y = 1
+		relative_position_id = SAU_import_foreign_bombers
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war = yes
+					threat > 0.5
+				}
+			}
+			modifier = {
+				factor = 0
+				num_of_factories < 15
+				NOT = {
+					AND = {
+						has_completed_focus = SAU_develop_north
+						has_completed_focus = SAU_develop_hejaz
+						has_completed_focus = SAU_develop_south
+						has_completed_focus = SAU_focus_industrial_investments
+						has_completed_focus = SAU_arab_war_economy
+						OR = {
+							has_completed_focus = SAU_loyalty_to_abdulaziz
+							has_completed_focus = SAU_anti_fascist_coalition
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5
+				num_of_factories < 20
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = CZE_cas_focus #@#
+				bonus = 1.0
+				uses = 1
+				category = cas_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_tac_focus
+		icon = GFX_goal_generic_air_bomber
+		prerequisite = { focus = SAU_import_foreign_bombers }
+		mutually_exclusive = { focus = SAU_cas_focus }
+		x = 2
+		y = 1
+		relative_position_id = SAU_import_foreign_bombers
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war = yes
+					threat > 0.5
+				}
+			}
+			modifier = {
+				factor = 0
+				num_of_factories < 15
+				NOT = {
+					AND = {
+						has_completed_focus = SAU_develop_north
+						has_completed_focus = SAU_develop_hejaz
+						has_completed_focus = SAU_develop_south
+						has_completed_focus = SAU_focus_industrial_investments
+						has_completed_focus = SAU_arab_war_economy
+						OR = {
+							has_completed_focus = SAU_loyalty_to_abdulaziz
+							has_completed_focus = SAU_anti_fascist_coalition
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5
+				num_of_factories < 20
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = CZE_tac_focus #@#
+				bonus = 1.0
+				uses = 1
+				category = tactical_bomber
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_rule_the_air
+		icon = GFX_goal_generic_air_doctrine
+		prerequisite = { focus = SAU_tac_focus focus = SAU_cas_focus }
+		x = 0
+		y = 1
+		relative_position_id = SAU_cas_focus
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 20
+			modifier = {
+				factor = 2
+				OR = {
+					has_war = yes
+					threat > 0.5
+				}
+			}
+			modifier = {
+				factor = 0
+				num_of_factories < 15
+				NOT = {
+					AND = {
+						has_completed_focus = SAU_develop_north
+						has_completed_focus = SAU_develop_hejaz
+						has_completed_focus = SAU_develop_south
+						has_completed_focus = SAU_focus_industrial_investments
+						has_completed_focus = SAU_arab_war_economy
+						OR = {
+							has_completed_focus = SAU_loyalty_to_abdulaziz
+							has_completed_focus = SAU_anti_fascist_coalition
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0.5
+				num_of_factories < 20
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = air_doc_bonus
+				cost_reduction = 0.5
+				uses = 3
+				category = air_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = SAU_industrial_revolution
+		icon = GFX_focus_generic_industry_3
+		prerequisite = { focus = SAU_altariq_alearabiu_alsarie }
+		relative_position_id = SAU_altariq_alearabiu_alsarie
+		x = 6
+		y = 1
+		cost = 5
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+			OR = {
+				has_completed_focus = SAU_jeddah_university_land
+				has_completed_focus = SAU_riyadh_university_air
+			}
+		}
+
+		completion_reward = {
+			add_ideas = SAU_industrial_revolution_idea
+			random_owned_controlled_state = {
+				prioritize = { 292 678 679 854 855 856 857 858 859 }
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 292 678 679 854 855 856 857 858 859 }
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 292 678 679 854 855 856 857 858 859 }
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = SAU_the_discovery_of_oil
+		icon = GFX_focus_generic_industry_3
+		prerequisite = { focus = SAU_industrial_revolution }
+		relative_position_id = SAU_industrial_revolution
+		x = 0
+		y = 1
+		cost = 10
+
+		ai_will_do = {
+			factor = 30
+		}
+
+		available = {
+		}
+
+		completion_reward = {
+			add_ideas = SAU_industrial_revolution_idea
+			random_owned_controlled_state = {
+				prioritize = { 292 678 679 854 855 856 857 858 859 }
+				limit = {
+					free_building_slots = {
+						building = fuel_silo
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = fuel_silo
+					level = 1
+					instant_build = yes
+				}
+				add_resource = {
+   					type = oil
+    					amount = 20
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 292 678 679 854 855 856 857 858 859 }
+				limit = {
+					free_building_slots = {
+						building = fuel_silo
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = fuel_silo
+					level = 1
+					instant_build = yes
+				}
+				add_resource = {
+   					type = oil
+    					amount = 20
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 292 678 679 854 855 856 857 858 859 }
+				limit = {
+					free_building_slots = {
+						building = fuel_silo
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = fuel_silo
+					level = 1
+					instant_build = yes
+				}
+				add_resource = {
+   					type = oil
+    					amount = 20
+				}
+			}
+		}
+	}
+}
