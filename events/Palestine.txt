@@ -77,9 +77,90 @@ country_event = {
 	}
 
 	option = {
-		name = PAL.3.b
+		name = PAL.3.c
 		PAL = {
 			complete_national_focus = MPL_levantine_union
+		}
+	}
+}
+
+country_event = {
+	id = PAL.4
+	title = PAL.4.t
+	desc = PAL.4.d
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = PAL.4.a
+		limit = {
+			OR = {
+				democratic > party_popularity@communism
+				democratic = party_popularity@communism
+			}
+			OR = {
+				democratic > party_popularity@fascism
+				democratic = party_popularity@fascism
+			}
+			OR = {
+				democratic > party_popularity@neutrality
+				democratic = party_popularity@neutrality
+			}
+		}
+		complete_national_focus = MPL_democratic_victory
+	}
+
+	option = {
+		name = PAL.4.b
+		limit = {
+			OR = {
+				neutrality > party_popularity@communism
+				neutrality = party_popularity@communism
+			}
+			OR = {
+				neutrality > party_popularity@fascism
+				neutrality = party_popularity@fascism
+			}
+			OR = {
+				neutrality > party_popularity@democratic
+				neutrality = party_popularity@democratic
+			}
+		}
+	}
+
+	option = {
+		name = PAL.4.c
+		limit = {
+			OR = {
+				communism > party_popularity@neutrality
+				communism = party_popularity@neutrality
+			}
+			OR = {
+				communism > party_popularity@fascism
+				communism = party_popularity@fascism
+			}
+			OR = {
+				communism > party_popularity@democratic
+				communism = party_popularity@democratic
+			}
+		}
+	}
+
+	option = {
+		name = PAL.4.d
+		limit = {
+			OR = {
+				neutrality > party_popularity@communism
+				neutrality = party_popularity@communism
+			}
+			OR = {
+				neutrality > party_popularity@fascism
+				neutrality = party_popularity@fascism
+			}
+			OR = {
+				neutrality > party_popularity@democratic
+				neutrality = party_popularity@democratic
+			}
 		}
 	}
 }
