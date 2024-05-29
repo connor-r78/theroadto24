@@ -463,7 +463,7 @@
  STATE_451:0 "Derna"
  STATE_452:0 "Matrouh"
  STATE_453:0 "Sinai"
- STATE_454:0 "Palestine"
+ STATE_454:0 "Beersheba"
  STATE_455:0 "Jordan"
  STATE_456:0 "Aswan"
  STATE_457:1 "Eastern Desert"
@@ -985,5 +985,9 @@
  STATE_967: "Amazon" # impassables
  STATE_968: "Amazon" # impassables
  STATE_969: "Rio Branco"
+ STATE_970: "Nazareth"
+ STATE_971: "West Bank"
+ STATE_972: "Beishan"
+ STATE_973: "Gaza"
  
 
