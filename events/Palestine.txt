@@ -36,3 +36,44 @@ country_event = {
             	}
 	}
 }
+
+country_event = {
+	id = PAL.3
+	title = PAL.3.t
+	desc = PAL.3.d
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = PAL.3.a
+		limit = {
+			PAL = {
+				has_completed_focus = MPL_continue_Jewish_immigration
+				complete_national_focus = MPL_two_states
+			}
+		}
+		ISR = {
+			set_state_owner = 970
+		}
+	}
+
+	option = {
+		name = PAL.3.b
+		limit = {
+			PAL = {
+				has_completed_focus = MPL_an_arab_revolt
+			}
+		}
+		PAL = {
+			set_state_owner = 970
+			complete_national_focus = MPL_two_states
+		}
+	}
+
+	option = {
+		name = PAL.3.b
+		PAL = {
+			complete_national_focus = MPL_levantine_union
+		}
+	}
+}
