@@ -96,9 +96,6 @@ focus_tree = {
 				at_peace = yes
 			}
 		}
-		mutually_exclusive = {
-			focus = MPL_continue_Jewish_immigration
-		}
 		completion_reward = {
 			add_political_power = 100
 			add_stability = 0.3
@@ -152,7 +149,7 @@ focus_tree = {
 		id = MPL_a_forgone_conclusion
 		icon = GFX_focus_eng_decolonization
 		relative_position_id = MPL_deal_with_strike
-		x = -1
+		x = -3
 		y = 1
 		mutually_exclusive = {
 			focus = MPL_british_occupation
@@ -275,10 +272,12 @@ focus_tree = {
 		}
 		cost = 4
 		completion_reward = {
-			country_event = {
-				id = mandate_palestine.3
-				days = 1
-				random_hours = 12
+			ENG = {
+				country_event = {
+					id = PAL.3
+					days = 1
+					random_hours = 12
+				}
 			}
 		}
 		search_filters = {
@@ -2418,7 +2417,7 @@ focus_tree = {
 		cost = 5
 		completion_reward = {
 			country_event = {
-				id = mandate_palestine.40
+				id = PAL.4
 				days = 1
 				random_hours = 12
 			}
