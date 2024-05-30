@@ -17,7 +17,7 @@ focus_tree = {
 		x = 3
 		y = 0
 		cost = 15.5
-		icon = r56_goal_MPL_collapse
+		icon = GFX_focus_generic_population_growth
 		available = {
 			PAL = {
 				is_subject = yes
@@ -50,7 +50,7 @@ focus_tree = {
 		x = 5
 		y = 0
 		cost = 15.5
-		icon = r56_goal_MPL_collapse
+		icon = GFX_focus_TUR_loosen_the_laws_on_secularism
 		available = {
 
 		}
@@ -90,7 +90,7 @@ focus_tree = {
 		cost = 10
 		relative_position_id = MPL_continue_Jewish_immigration
 		prerequisite = { focus = MPL_an_arab_revolt focus = MPL_continue_Jewish_immigration}
-		icon = GFX_goal_MPL_start
+		icon = GFX_focus_generic_league_of_nations
 		available = {
 			PAL = {
 				at_peace = yes
@@ -2665,7 +2665,7 @@ focus_tree = {
 
 	focus = {
 		id = MPL_rise_of_the_trotskyists
-		icon = GFX_goal_communist_factory
+		icon = GFX_focus_fra_loyalty_trotzky
 		relative_position_id = MPL_communism_victory
 		x = -5
 		y = 1
