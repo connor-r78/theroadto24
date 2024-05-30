@@ -1,4 +1,4 @@
-﻿l_english:
+l_english:
 
  #THE CHAD BEGINNING
  MPL_GATHERING_STORM_DESC:0 "Ever since the formation of the Mandate for Palestine in 1923, instability has ruled the region. \nWith the mass Jewish immigration into the country following the Balfour Declaration, multiple local governments from both sides fight for control over the region, each having their own paramilitary organizations that vastly outnumber the tiny British garrison stationed in the country.\nWith tensions at an all time high following a series of incidents, the question remains: Can the British hold on? Will the region devolve into yet more fighting? Or perhaps, an unexpected solution will arise?"
@@ -67,6 +67,27 @@
  MPL_secret_police:0 "Secret Police Funding"
 
  #FOCUS
+ MPL_continue_Jewish_immigration:0 "Continue the Jewish Immigration"
+ MPL_continue_Jewish_immigration_desc:0 "These lands were long the homeland of the great Jewish people. We must lend our hand to those returning to this land so that we may one day create a new Jewish state."
+
+ MPL_an_arab_revolt:0 "An Arab Revolt"
+ MPL_an_arab_revolt_desc:0 "It is time to revolt against the Jews, which are immigrating to Palestine and ruining our land."
+
+ MPL_a_new_mandate:0 "A New Mandate"
+ MPL_a_new_mandate_desc:0 "Now that the Holy Land is caught in another religious conflict we must prepare ourselves for the future of the British Mandate for Palestine."
+
+ MPL_rise_of_the_Trotskyists:0 "Rise of the Trotskyists"
+ MPL_rise_of_the_Trotskyists_desc:0 "Now that we have secured a communist government for Israel, we must open discourse on how will we will run this commune; however there is really only one option, Trotskyism."
+
+ MPL_put_Gluckstein_in_power:0 "Put Gluckstein in Power"
+ MPL_put_Gluckstein_in_power_desc:0 "We have determined that we must put the great Israeli Trotskyist Yigael Gluckstein in power over our country."
+
+ MPL_permanent_arms_economy:0 "Permanent Arms Economy"
+ MPL_permanent_arms_economy_desc:0 "Our economy will be the strongest if we build it on the back of military factories."
+
+ fund_anti_Stalin_revolutions:0 "Fund Anti-Stalin Revolutions"
+ fund_anti_Stalin_revolutions_desc:0 "Trotskyism is the way forward in this new world. Stalinists abroad must be deposed!"
+
  #FOCUS - START
  MPL_development_haifa:0 "Develop Haifa Region"
  MPL_development_haifa_desc:0 "We should develop the Jewish region of Haifa to gain their support."
