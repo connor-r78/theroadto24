@@ -8,75 +8,12 @@ scripted_map_modes = {
 					set_temp_variable = { alpha = 1.0 }
 					if = {
 						limit = {
-							is_core_of = ROOT
+							is_core_of = CTH
 						}
-						if = {
-							limit = {
-								is_controlled_by = ROOT
-							}
-							set_temp_variable = { red = 0.0 }
-							set_temp_variable = { green = 0.5 }
-							set_temp_variable = { blue = 0.0 }
-						}
-						else_if = {
-							limit = {
-								is_owned_by = ROOT
-							}
-							set_temp_variable = { red = 0.7 }
-							set_temp_variable = { green = 0.0 }
-							set_temp_variable = { blue = 0.0 }
-						}
-						else = {
-							set_temp_variable = { red = 0.67 }
-							set_temp_variable = { green = 1.0 }
-							set_temp_variable = { blue = 0.67 }
-							set_temp_variable = { alpha = 0.5 }
-						}
-					}
-					else_if = {
-						limit = {
-							is_owned_by = ROOT
-						}
-						if = {
-							limit = {
-								is_controlled_by = ROOT
-							}
-							set_temp_variable = { red = 0.0 }
-							set_temp_variable = { green = 1.0 }
-							set_temp_variable = { blue = 0.0 }
-						}
-						else = {
-							set_temp_variable = { red = 1.0 }
-							set_temp_variable = { green = 0.0 }
-							set_temp_variable = { blue = 0.0 }
-						}
-					}
-					else_if = {
-						limit = {
-							is_claimed_by = ROOT
-						}
-						if = {
-							limit = {
-								is_controlled_by = ROOT
-							}
-							set_temp_variable = { red = 0.0 }
-							set_temp_variable = { green = 0.67 }
-							set_temp_variable = { blue = 1.0 }
-						}
-						else = {
-							set_temp_variable = { red = 1.0 }
-							set_temp_variable = { green = 0.67 }
-							set_temp_variable = { blue = 1.0 }
-							set_temp_variable = { alpha = 0.5 }
-						}
-					}
-					else = {
-						set_temp_variable = { red = 1.0 }
-						set_temp_variable = { green = 1.0 }
+						set_temp_variable = { red = 0.9 }
+						set_temp_variable = { green = 0.9 }
 						set_temp_variable = { blue = 0.0 }
 					}
-				}
-			}
 
 			thickness = no
 
