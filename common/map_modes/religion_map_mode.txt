@@ -8,11 +8,163 @@ scripted_map_modes = {
 					set_temp_variable = { alpha = 1.0 }
 					if = {
 						limit = {
-							is_core_of = CTH
+							is_claimed_by = CTH
 						}
 						set_temp_variable = { red = 0.9 }
 						set_temp_variable = { green = 0.9 }
 						set_temp_variable = { blue = 0.0 }
+					}
+					else if = {
+						limit = {
+							is_claimed_by = AGL
+						}
+						set_temp_variable = { red = 0.9 }
+						set_temp_variable = { green = 0.4 }
+						set_temp_variable = { blue = 0.0 }
+					}
+					else if = {
+						limit = {
+							is_claimed_by = BAP
+						}
+						set_temp_variable = { red = 0.6 }
+						set_temp_variable = { green = 0.6 }
+						set_temp_variable = { blue = 0.0 }
+					}
+					else if = {
+						limit = {
+							is_claimed_by = ORT
+						}
+						set_temp_variable = { red = 0.7 }
+						set_temp_variable = { green = 0.0 }
+						set_temp_variable = { blue = 0.7 }
+					}
+					else if = {
+						limit = {
+							is_claimed_by = HIN
+						}
+						set_temp_variable = { red = 0.9 }
+						set_temp_variable = { green = 0.7 }
+						set_temp_variable = { blue = 0.0 }
+					}
+					else if = {
+						limit = {
+							is_claimed_by = IBA
+						}
+						set_temp_variable = { red = 0.1 }
+						set_temp_variable = { green = 0.8 }
+						set_temp_variable = { blue = 0.1 }
+					}
+					else if = {
+						limit = {
+							is_claimed_by = LUT
+						}
+						set_temp_variable = { red = 0.0 }
+						set_temp_variable = { green = 0.0 }
+						set_temp_variable = { blue = 0.7 }
+					}
+					else if = {
+						limit = {
+							is_claimed_by = MAH
+						}
+						set_temp_variable = { red = 0.7 }
+						set_temp_variable = { green = 0.0 }
+						set_temp_variable = { blue = 0.9 }
+					}
+					else if = {
+						limit = {
+							is_claimed_by = MET
+						}
+						set_temp_variable = { red = 0.9 }
+						set_temp_variable = { green = 0.8 }
+						set_temp_variable = { blue = 0.0 }
+					}
+					else if = {
+						limit = {
+							is_claimed_by = LDS
+						}
+						set_temp_variable = { red = 0.7 }
+						set_temp_variable = { green = 0.2 }
+						set_temp_variable = { blue = 0.7 }
+					}
+					else if = {
+						limit = {
+							is_claimed_by = PEN
+						}
+						set_temp_variable = { red = 0.9 }
+						set_temp_variable = { green = 0.2 }
+						set_temp_variable = { blue = 0.0 }
+					}
+					else if = {
+						limit = {
+							is_claimed_by = REF
+						}
+						set_temp_variable = { red = 1 }
+						set_temp_variable = { green = 0.5 }
+						set_temp_variable = { blue = 0.0 }
+					}
+					else if = {
+						limit = {
+							is_claimed_by = SHA
+						}
+						set_temp_variable = { red = 0.6 }
+						set_temp_variable = { green = 0.0 }
+						set_temp_variable = { blue = 0.5 }
+					}
+					else if = {
+						limit = {
+							is_claimed_by = SHN
+						}
+						set_temp_variable = { red = 0.9 }
+						set_temp_variable = { green = 0.0 }
+						set_temp_variable = { blue = 0.0 }
+					}
+					else if = {
+						limit = {
+							is_claimed_by = SHI
+						}
+						set_temp_variable = { red = 0.0 }
+						set_temp_variable = { green = 0.7 }
+						set_temp_variable = { blue = 0.0 }
+					}
+					else if = {
+						limit = {
+							is_claimed_by = SKH
+						}
+						set_temp_variable = { red = 0.8 }
+						set_temp_variable = { green = 0.3 }
+						set_temp_variable = { blue = 0.0 }
+					}
+					else if = {
+						limit = {
+							is_claimed_by = SUN
+						}
+						set_temp_variable = { red = 0.0 }
+						set_temp_variable = { green = 0.5 }
+						set_temp_variable = { blue = 0.0 }
+					}
+					else if = {
+						limit = {
+							is_claimed_by = TAI
+						}
+						set_temp_variable = { red = 1 }
+						set_temp_variable = { green = 0.6 }
+						set_temp_variable = { blue = 0.0 }
+					}
+					else if = {
+						limit = {
+							is_claimed_by = THE
+						}
+						set_temp_variable = { red = 0.9 }
+						set_temp_variable = { green = 0.0 }
+						set_temp_variable = { blue = 0.5 }
+					}
+					else if = {
+						limit = {
+							is_claimed_by = VAJ
+						}
+						set_temp_variable = { red = 0.9 }
+						set_temp_variable = { green = 0.2 }
+						set_temp_variable = { blue = 0.6 }
 					}
 
 			thickness = no
