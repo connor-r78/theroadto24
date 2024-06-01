@@ -10,6 +10,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = CTH
 						}
+						tooltip = religion_map_mode_catholic
 						set_temp_variable = { red = 0.9 }
 						set_temp_variable = { green = 0.9 }
 						set_temp_variable = { blue = 0.0 }
@@ -18,6 +19,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = AGL
 						}
+						tooltip = religion_map_mode_anglican
 						set_temp_variable = { red = 0.9 }
 						set_temp_variable = { green = 0.4 }
 						set_temp_variable = { blue = 0.0 }
@@ -26,6 +28,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = BAP
 						}
+						tooltip = religion_map_mode_baptist
 						set_temp_variable = { red = 0.6 }
 						set_temp_variable = { green = 0.6 }
 						set_temp_variable = { blue = 0.0 }
@@ -34,6 +37,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = ORT
 						}
+						tooltip = religion_map_mode_eastern_orthodox
 						set_temp_variable = { red = 0.7 }
 						set_temp_variable = { green = 0.0 }
 						set_temp_variable = { blue = 0.7 }
@@ -42,6 +46,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = HIN
 						}
+						tooltip = religion_map_mode_hindu
 						set_temp_variable = { red = 0.9 }
 						set_temp_variable = { green = 0.7 }
 						set_temp_variable = { blue = 0.0 }
@@ -50,6 +55,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = IBA
 						}
+						tooltip = religion_map_mode_ibadi
 						set_temp_variable = { red = 0.1 }
 						set_temp_variable = { green = 0.8 }
 						set_temp_variable = { blue = 0.1 }
@@ -58,6 +64,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = LUT
 						}
+						tooltip = religion_map_mode_lutheran
 						set_temp_variable = { red = 0.1 }
 						set_temp_variable = { green = 0.0 }
 						set_temp_variable = { blue = 0.7 }
@@ -66,6 +73,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = MAH
 						}
+						tooltip = religion_map_mode_mahayana
 						set_temp_variable = { red = 0.7 }
 						set_temp_variable = { green = 0.0 }
 						set_temp_variable = { blue = 0.9 }
@@ -74,6 +82,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = MET
 						}
+						tooltip = religion_map_mode_methodist
 						set_temp_variable = { red = 0.9 }
 						set_temp_variable = { green = 0.8 }
 						set_temp_variable = { blue = 0.0 }
@@ -82,6 +91,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = LDS
 						}
+						tooltip = religion_map_mode_mormon
 						set_temp_variable = { red = 0.7 }
 						set_temp_variable = { green = 0.2 }
 						set_temp_variable = { blue = 0.7 }
@@ -90,6 +100,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = PEN
 						}
+						tooltip = religion_map_mode_pentecostal
 						set_temp_variable = { red = 0.9 }
 						set_temp_variable = { green = 0.2 }
 						set_temp_variable = { blue = 0.0 }
@@ -98,6 +109,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = REF
 						}
+						tooltip = religion_map_mode_reformed
 						set_temp_variable = { red = 1 }
 						set_temp_variable = { green = 0.5 }
 						set_temp_variable = { blue = 0.0 }
@@ -106,6 +118,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = SHA
 						}
+						tooltip = religion_map_mode_shamanism
 						set_temp_variable = { red = 0.6 }
 						set_temp_variable = { green = 0.0 }
 						set_temp_variable = { blue = 0.5 }
@@ -114,6 +127,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = SHN
 						}
+						tooltip = religion_map_mode_shinto
 						set_temp_variable = { red = 0.9 }
 						set_temp_variable = { green = 0.0 }
 						set_temp_variable = { blue = 0.0 }
@@ -122,6 +136,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = SHI
 						}
+						tooltip = religion_map_mode_shia
 						set_temp_variable = { red = 0.0 }
 						set_temp_variable = { green = 0.7 }
 						set_temp_variable = { blue = 0.0 }
@@ -130,6 +145,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = SKH
 						}
+						tooltip = religion_map_mode_sikhism
 						set_temp_variable = { red = 0.8 }
 						set_temp_variable = { green = 0.3 }
 						set_temp_variable = { blue = 0.0 }
@@ -138,6 +154,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = SUN
 						}
+						tooltip = religion_map_mode_sunni
 						set_temp_variable = { red = 0.0 }
 						set_temp_variable = { green = 0.5 }
 						set_temp_variable = { blue = 0.0 }
@@ -146,6 +163,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = TAI
 						}
+						tooltip = religion_map_mode_tai_folk
 						set_temp_variable = { red = 1 }
 						set_temp_variable = { green = 0.6 }
 						set_temp_variable = { blue = 0.0 }
@@ -154,6 +172,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = THE
 						}
+						tooltip = religion_map_mode_theravada
 						set_temp_variable = { red = 0.9 }
 						set_temp_variable = { green = 0.0 }
 						set_temp_variable = { blue = 0.5 }
@@ -162,6 +181,7 @@ scripted_map_modes = {
 						limit = {
 							is_claimed_by = VAJ
 						}
+						tooltip = religion_map_mode_vajrayana
 						set_temp_variable = { red = 0.9 }
 						set_temp_variable = { green = 0.2 }
 						set_temp_variable = { blue = 0.6 }
