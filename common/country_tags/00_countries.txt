@@ -262,6 +262,28 @@ YUC = "countries/Yucatan.txt"
 RIG = "countries/Rio Grande.txt"
 QUE = "countries/Quebec.txt"
 CTH = "countries/Roman Catholic.txt"
+AGL = "countries/Anglican.txt"
+BAP = "countries/Baptist.txt"
+ORT = "countries/Eastern Orthodox.txt"
+HIN = "countries/Hindu.txt"
+IBA = "countries/Ibadi.txt"
+LUT = "countries/Lutheran.txt"
+MAH = "countries/Mahayana.txt"
+MET = "countries/Methodist.txt"
+LDS = "countries/Mormon.txt"
+PEN = "countries/Pentecostal.txt"
+REF = "countries/Reformed.txt"
+SHA = "countries/Shamanism.txt"
+SHN = "contries/Shinto.txt"
+SHI = "countries/Shia.txt"
+SKH = "countries/Sikhism.txt"
+SUN = "countries/Sunni.txt"
+TAI = "countries/Tai Folk"
+THE = "countries/Theravada"
+VAJ = "countries/Vajrayana"
+
+
+
 
 # WELSH ARGENTINA
 WLA = "countries/Welsh Argentina.txt"
